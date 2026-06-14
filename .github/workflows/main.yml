@@ -15,3 +15,8 @@ jobs:
         run: echo "Hello"
       - name: say hello to username
         run: echo "hello $USER"
+  details:
+      runs-on: ubuntu-latest
+      steps:
+        - name: python version
+          run: python --version
