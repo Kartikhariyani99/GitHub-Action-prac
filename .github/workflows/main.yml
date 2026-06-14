@@ -11,7 +11,7 @@ jobs:
 #this is runner each jobs run on runner
     runs-on: ubuntu-latest
     steps:
-      -name: say hello
-       run: echo "Hello"
-      -name: say hello to username
-       run: echo "hello $USER"
+      - name: say hello
+        run: echo "Hello"
+      - name: say hello to username
+        run: echo "hello $USER"
