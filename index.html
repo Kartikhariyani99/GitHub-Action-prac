@@ -1,1 +1,837 @@
-<h1> hii hello</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kartik Hariyani — Cloud & DevOps Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0A0E1A;
+      --bg2:       #0F1525;
+      --card:      #151D35;
+      --border:    #1E2A4A;
+      --cyan:      #00D4FF;
+      --cyan-dim:  #00A3C4;
+      --amber:     #F59E0B;
+      --white:     #E8EEF4;
+      --muted:     #7A8AAD;
+      --green:     #10B981;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(10,14,26,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--cyan);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-logo span { color: var(--muted); }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--cyan); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 2.5rem 4rem;
+      overflow: hidden;
+    }
+
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--cyan);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--cyan);
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .hero-name { color: var(--white); }
+
+    .hero-terminal {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      color: var(--cyan);
+      margin-bottom: 1.8rem;
+      min-height: 2.2rem;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--cyan);
+      vertical-align: middle;
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .hero-desc {
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 0.7rem 1.8rem;
+      background: var(--cyan);
+      color: var(--bg);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    }
+
+    .btn-primary:hover { background: #33DDFF; transform: translateY(-2px); }
+
+    .btn-ghost {
+      padding: 0.7rem 1.8rem;
+      background: transparent;
+      color: var(--cyan);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-ghost:hover { border-color: var(--cyan); }
+
+    /* ── SECTION BASE ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 5rem 2.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+      color: var(--white);
+    }
+
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 0 auto;
+    }
+
+    /* ── ABOUT ── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+
+    .about-text p strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .stat-item {
+      border-left: 2px solid var(--cyan);
+      padding-left: 1.2rem;
+    }
+
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--cyan);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── SKILLS ── */
+    #skills .skills-categories {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .skill-category {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+    }
+
+    .skill-cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-cat-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.3);
+      font-size: 0.8rem;
+    }
+
+    .skill-cat-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.3rem 0.75rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--white);
+      letter-spacing: 0.03em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .tag:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .tag.highlight {
+      border-color: rgba(0,212,255,0.4);
+      color: var(--cyan);
+      background: rgba(0,212,255,0.06);
+    }
+
+    /* ── TRAINING ── */
+    #training .training-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+      transition: border-color 0.3s;
+    }
+
+    #training .training-card:hover { border-color: rgba(0,212,255,0.4); }
+
+    .training-badge {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .training-info h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+
+    .training-info p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .badge-completed {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--green);
+      border: 1px solid rgba(16,185,129,0.3);
+      padding: 0.2rem 0.6rem;
+      margin-top: 0.8rem;
+      background: rgba(16,185,129,0.06);
+    }
+
+    .badge-completed::before { content: '●'; font-size: 0.5rem; }
+
+    /* ── GOALS ── */
+    #goals .goals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .goal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .goal-card:hover {
+      border-color: var(--amber);
+      transform: translateY(-3px);
+    }
+
+    .goal-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .goal-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.4;
+    }
+
+    .goal-card p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      line-height: 1.6;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      text-align: center;
+      padding: 6rem 2.5rem;
+    }
+
+    #contact .contact-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    #contact h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    #contact p {
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.05em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .contact-link:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    footer span { color: var(--cyan); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav ul { gap: 1rem; }
+      #about .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      #training .training-card { flex-direction: column; gap: 1rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cursor { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="nav-logo"><span>~/</span>kartik_hariyani</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#training">Training</a></li>
+      <li><a href="#goals">Goals</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Available for internships & opportunities</div>
+      <h1 class="hero-name">Kartik Hariyani</h1>
+      <div class="hero-terminal" id="typewriter"><span class="cursor"></span></div>
+      <p class="hero-desc">
+        Third-year Computer Engineering student building towards a career in Cloud &amp; DevOps.
+        I turn infrastructure challenges into automated, scalable solutions.
+      </p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-primary">Get in Touch</a>
+        <a href="#skills" class="btn-ghost">View My Skills</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <div class="reveal">
+      <div class="section-label">// 01 — about</div>
+      <div class="section-title">Who I Am</div>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>
+          I'm a <strong>third-year Computer Engineering student</strong> at Vishwakarma Government Engineering College, Ahmedabad, 
+          with a clear direction: Cloud Computing, AWS, and DevOps.
+        </p>
+        <p>
+          I've completed <strong>DevOps training</strong> and actively work with Linux, Git, CI/CD pipelines, 
+          networking fundamentals, and cloud technologies to build a solid engineering foundation.
+        </p>
+        <p>
+          My goal is to become a <strong>Cloud or DevOps Engineer</strong> — building systems that are 
+          scalable, automated, and reliable. I'm also deepening my interest in <strong>Machine Learning and AI</strong> 
+          to stay at the intersection of infrastructure and intelligence.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-item">
+          <div class="stat-num">3rd</div>
+          <div class="stat-label">Year — B.Tech Computer Engineering</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">AWS</div>
+          <div class="stat-label">Cloud Services — Primary Focus</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">DevOps</div>
+          <div class="stat-label">Training Completed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Curiosity — Always Learning</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── SKILLS ── -->
+  <section id="skills">
+    <div class="reveal">
+      <div class="section-label">// 02 — skills</div>
+      <div class="section-title">Technical Arsenal</div>
+    </div>
+    <div class="skills-categories">
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">☁</div>
+          <div class="skill-cat-name">Cloud &amp; DevOps</div>
+        </div>
+        <div class="skill-tags">
+          <span class="tag highlight">AWS Cloud Services</span>
+          <span class="tag highlight">CI/CD Pipelines</span>
+          <span class="tag highlight">DevOps Practices</span>
+          <span class="tag">Infrastructure Automation</span>
+          <span class="tag">Cloud Architecture</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">⚙</div>
+          <div class="skill-cat-name">Systems &amp; OS</div>
+        </div>
+        <div class="skill-tags">
+          <span class="tag highlight">Linux</span>
+          <span class="tag highlight">Shell Scripting (Bash)</span>
+          <span class="tag">Networking Fundamentals</span>
+          <span class="tag">System Administration</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">💻</div>
+          <div class="skill-cat-name">Programming &amp; CS Fundamentals</div>
+        </div>
+        <div class="skill-tags">
+          <span class="tag highlight">Programming</span>
+          <span class="tag highlight">Data Structures</span>
+          <span class="tag">Databases</span>
+          <span class="tag">Algorithms</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">🔧</div>
+          <div class="skill-cat-name">Tools &amp; Version Control</div>
+        </div>
+        <div class="skill-tags">
+          <span class="tag highlight">Git</span>
+          <span class="tag highlight">GitHub</span>
+          <span class="tag">Version Control Workflows</span>
+          <span class="tag">Collaboration</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── TRAINING ── -->
+  <section id="training">
+    <div class="reveal">
+      <div class="section-label">// 03 — training</div>
+      <div class="section-title">Completed Training</div>
+    </div>
+    <div class="training-card reveal">
+      <div class="training-badge">🛠</div>
+      <div class="training-info">
+        <h3>DevOps Engineering Training</h3>
+        <p>
+          Comprehensive hands-on training covering the core DevOps lifecycle — 
+          from version control and CI/CD pipelines to containerization, infrastructure automation, 
+          monitoring, and cloud deployment practices. Built a working foundation for production-ready workflows.
+        </p>
+        <div class="badge-completed">COMPLETED</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── GOALS ── -->
+  <section id="goals">
+    <div class="reveal">
+      <div class="section-label">// 04 — goals</div>
+      <div class="section-title">What I'm Building Towards</div>
+    </div>
+    <div class="goals-grid">
+      <div class="goal-card reveal">
+        <div class="goal-icon">☁️</div>
+        <h3>Master AWS</h3>
+        <p>Earn AWS certifications and gain deep expertise across core cloud services.</p>
+      </div>
+      <div class="goal-card reveal">
+        <div class="goal-icon">⚡</div>
+        <h3>Cloud / DevOps Engineer</h3>
+        <p>Build a career designing scalable, automated cloud infrastructure.</p>
+      </div>
+      <div class="goal-card reveal">
+        <div class="goal-icon">🤖</div>
+        <h3>AI & Machine Learning</h3>
+        <p>Deepen AI/ML knowledge to work at the intersection of cloud and intelligence.</p>
+      </div>
+      <div class="goal-card reveal">
+        <div class="goal-icon">🔩</div>
+        <h3>Hardware Knowledge</h3>
+        <p>Strengthen computer hardware fundamentals to complement systems engineering.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact">
+    <div class="contact-inner reveal">
+      <div class="section-label">// 05 — contact</div>
+      <h2>Let's Connect</h2>
+      <p>
+        I'm open to internships, collaborative projects, and conversations about Cloud &amp; DevOps.
+        Reach out — I'd love to connect with engineers and teams building the future.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:kartik@example.com" class="contact-link">
+          <span>✉</span> email
+        </a>
+        <a href="https://linkedin.com/in/kartikhariyani" target="_blank" class="contact-link">
+          <span>in</span> linkedin
+        </a>
+        <a href="https://github.com/kartikhariyani" target="_blank" class="contact-link">
+          <span>⌥</span> github
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p>© 2025 <span>Kartik Hariyani</span> — All rights reserved</p>
+    <p>Built with <span>precision</span> &amp; passion for cloud</p>
+  </footer>
+
+  <script>
+    // ── TYPEWRITER ──
+    const lines = [
+      'Cloud & DevOps Enthusiast',
+      'AWS Learner',
+      'Computer Engineering Student',
+      'Building Scalable Systems',
+    ];
+    let li = 0, ci = 0, deleting = false;
+    const tw = document.getElementById('typewriter');
+
+    function type() {
+      const current = lines[li];
+      if (!deleting) {
+        ci++;
+        tw.innerHTML = current.slice(0, ci) + '<span class="cursor"></span>';
+        if (ci === current.length) {
+          deleting = true;
+          setTimeout(type, 1800);
+          return;
+        }
+        setTimeout(type, 55);
+      } else {
+        ci--;
+        tw.innerHTML = current.slice(0, ci) + '<span class="cursor"></span>';
+        if (ci === 0) {
+          deleting = false;
+          li = (li + 1) % lines.length;
+          setTimeout(type, 300);
+          return;
+        }
+        setTimeout(type, 28);
+      }
+    }
+    setTimeout(type, 800);
+
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
