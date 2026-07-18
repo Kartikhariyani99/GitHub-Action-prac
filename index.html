@@ -1,837 +1,1817 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kartik Hariyani — Cloud & DevOps Engineer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:        #0A0E1A;
-      --bg2:       #0F1525;
-      --card:      #151D35;
-      --border:    #1E2A4A;
-      --cyan:      #00D4FF;
-      --cyan-dim:  #00A3C4;
-      --amber:     #F59E0B;
-      --white:     #E8EEF4;
-      --muted:     #7A8AAD;
-      --green:     #10B981;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--white);
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* ── NOISE TEXTURE ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.4;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 2.5rem;
-      background: rgba(10,14,26,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-logo {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-      color: var(--cyan);
-      letter-spacing: 0.05em;
-    }
-
-    .nav-logo span { color: var(--muted); }
-
-    nav ul {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    nav a {
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    nav a:hover { color: var(--cyan); }
-
-    /* ── HERO ── */
-    #hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 8rem 2.5rem 4rem;
-      overflow: hidden;
-    }
-
-    .hero-grid-bg {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
-    }
-
-    .hero-glow {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 860px;
-    }
-
-    .hero-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--cyan);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 32px;
-      height: 1px;
-      background: var(--cyan);
-    }
-
-    h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.8rem, 6vw, 5.5rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
-
-    .hero-name { color: var(--white); }
-
-    .hero-terminal {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-      color: var(--cyan);
-      margin-bottom: 1.8rem;
-      min-height: 2.2rem;
-    }
-
-    .cursor {
-      display: inline-block;
-      width: 2px;
-      height: 1.1em;
-      background: var(--cyan);
-      vertical-align: middle;
-      margin-left: 2px;
-      animation: blink 1s step-end infinite;
-    }
-
-    @keyframes blink { 50% { opacity: 0; } }
-
-    .hero-desc {
-      max-width: 560px;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.75;
-      margin-bottom: 2.5rem;
-    }
-
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      padding: 0.7rem 1.8rem;
-      background: var(--cyan);
-      color: var(--bg);
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 600;
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: background 0.2s, transform 0.15s;
-      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
-    }
-
-    .btn-primary:hover { background: #33DDFF; transform: translateY(-2px); }
-
-    .btn-ghost {
-      padding: 0.7rem 1.8rem;
-      background: transparent;
-      color: var(--cyan);
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 600;
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .btn-ghost:hover { border-color: var(--cyan); }
-
-    /* ── SECTION BASE ── */
-    section {
-      position: relative;
-      z-index: 1;
-      padding: 5rem 2.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--cyan);
-      margin-bottom: 0.5rem;
-    }
-
-    .section-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.8rem, 3vw, 2.5rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 3rem;
-      color: var(--white);
-    }
-
-    .section-divider {
-      width: 100%;
-      height: 1px;
-      background: var(--border);
-      margin: 0 auto;
-    }
-
-    /* ── ABOUT ── */
-    #about .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .about-text p {
-      color: var(--muted);
-      margin-bottom: 1rem;
-      line-height: 1.8;
-    }
-
-    .about-text p strong {
-      color: var(--white);
-      font-weight: 500;
-    }
-
-    .about-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .stat-item {
-      border-left: 2px solid var(--cyan);
-      padding-left: 1.2rem;
-    }
-
-    .stat-num {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--cyan);
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 0.2rem;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── SKILLS ── */
-    #skills .skills-categories {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .skill-category {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 1.5rem 2rem;
-    }
-
-    .skill-cat-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .skill-cat-icon {
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,212,255,0.1);
-      border: 1px solid rgba(0,212,255,0.3);
-      font-size: 0.8rem;
-    }
-
-    .skill-cat-name {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--cyan);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      padding: 0.3rem 0.75rem;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      color: var(--white);
-      letter-spacing: 0.03em;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .tag:hover {
-      border-color: var(--cyan);
-      color: var(--cyan);
-    }
-
-    .tag.highlight {
-      border-color: rgba(0,212,255,0.4);
-      color: var(--cyan);
-      background: rgba(0,212,255,0.06);
-    }
-
-    /* ── TRAINING ── */
-    #training .training-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 2rem;
-      display: flex;
-      gap: 2rem;
-      align-items: flex-start;
-      transition: border-color 0.3s;
-    }
-
-    #training .training-card:hover { border-color: rgba(0,212,255,0.4); }
-
-    .training-badge {
-      flex-shrink: 0;
-      width: 52px;
-      height: 52px;
-      background: rgba(0,212,255,0.08);
-      border: 1px solid rgba(0,212,255,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-    }
-
-    .training-info h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 0.3rem;
-    }
-
-    .training-info p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .badge-completed {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--green);
-      border: 1px solid rgba(16,185,129,0.3);
-      padding: 0.2rem 0.6rem;
-      margin-top: 0.8rem;
-      background: rgba(16,185,129,0.06);
-    }
-
-    .badge-completed::before { content: '●'; font-size: 0.5rem; }
-
-    /* ── GOALS ── */
-    #goals .goals-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1rem;
-    }
-
-    .goal-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      transition: border-color 0.25s, transform 0.25s;
-    }
-
-    .goal-card:hover {
-      border-color: var(--amber);
-      transform: translateY(-3px);
-    }
-
-    .goal-icon {
-      font-size: 1.6rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .goal-card h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--white);
-      line-height: 1.4;
-    }
-
-    .goal-card p {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-top: 0.4rem;
-      line-height: 1.6;
-    }
-
-    /* ── CONTACT ── */
-    #contact {
-      text-align: center;
-      padding: 6rem 2.5rem;
-    }
-
-    #contact .contact-inner {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    #contact h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
-
-    #contact p {
-      color: var(--muted);
-      margin-bottom: 2.5rem;
-      line-height: 1.75;
-    }
-
-    .contact-links {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1.4rem;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.82rem;
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.05em;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .contact-link:hover {
-      border-color: var(--cyan);
-      color: var(--cyan);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 1.5rem 2.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    footer p {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-    }
-
-    footer span { color: var(--cyan); }
-
-    /* ── SCROLL REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      nav ul { gap: 1rem; }
-      #about .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-      #training .training-card { flex-direction: column; gap: 1rem; }
-      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .cursor { animation: none; }
-      .reveal { opacity: 1; transform: none; transition: none; }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Interviewer — Hire on proof, not paper</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy-950:#060a17;
+    --navy-900:#0b1220;
+    --navy-800:#0f1b33;
+    --navy-700:#152444;
+    --navy-600:#1c2f56;
+    --blue-500:#2f6fed;
+    --blue-400:#5b8def;
+    --blue-300:#8fb3ff;
+    --ice:#eaf1ff;
+    --success:#2fd48c;
+    --warn:#f5a623;
+    --danger:#f0546b;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background: radial-gradient(ellipse 80% 60% at 20% -10%, #163063 0%, transparent 60%),
+                radial-gradient(ellipse 70% 50% at 100% 0%, #0e2a5c 0%, transparent 55%),
+                var(--navy-950);
+    color:var(--ice);
+    min-height:100vh;
+  }
+  .light-mode body{background:#f3f6fc;color:#0b1220}
+  .font-display{font-family:'Space Grotesk',sans-serif}
+  .font-mono{font-family:'JetBrains Mono',monospace}
+
+  .glass{
+    background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.10);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  .glass-strong{
+    background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));
+    border: 1px solid rgba(255,255,255,0.14);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+  }
+  .light .glass, .light-card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.55));
+    border: 1px solid rgba(11,18,32,0.08);
+    color:#0b1220;
+  }
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:8px}
+  ::-webkit-scrollbar-track{background:transparent}
+
+  .glow-blue{box-shadow:0 0 0 1px rgba(91,141,239,0.3), 0 8px 40px -8px rgba(47,111,237,0.55);}
+  .pulse-dot{position:relative}
+  .pulse-dot::after{
+    content:'';position:absolute;inset:-4px;border-radius:999px;
+    border:2px solid var(--success);opacity:0.6;
+    animation:pulseRing 1.8s ease-out infinite;
+  }
+  @keyframes pulseRing{0%{transform:scale(0.7);opacity:0.7}100%{transform:scale(1.8);opacity:0}}
+
+  @keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-30px) scale(1.06)}}
+  .blob{animation:floatBlob 9s ease-in-out infinite;filter:blur(60px)}
+  .blob2{animation:floatBlob 11s ease-in-out infinite reverse;filter:blur(70px)}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .fade-up{animation:fadeUp 0.6s cubic-bezier(.2,.7,.3,1) both}
+  .fade-up-1{animation-delay:.05s}.fade-up-2{animation-delay:.12s}.fade-up-3{animation-delay:.19s}.fade-up-4{animation-delay:.26s}
+
+  @keyframes waveform{0%,100%{transform:scaleY(0.3)}50%{transform:scaleY(1)}}
+  .wave-bar{animation:waveform 1.2s ease-in-out infinite;transform-origin:center}
+
+  .scrollbar-none::-webkit-scrollbar{display:none}
+  .scrollbar-none{-ms-overflow-style:none;scrollbar-width:none}
+
+  input,select,textarea{outline:none}
+  .ring-input:focus{box-shadow:0 0 0 3px rgba(47,111,237,0.35);border-color:var(--blue-400)}
+
+  .grad-text{background:linear-gradient(90deg,#8fb3ff,#ffffff 60%,#5b8def);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .btn-primary{background:linear-gradient(135deg,var(--blue-500),#1d4fd1);box-shadow:0 6px 24px -6px rgba(47,111,237,0.7);}
+  .btn-primary:hover{filter:brightness(1.08)}
+  .btn-ghost:hover{background:rgba(255,255,255,0.08)}
+
+  .radar-ring{transition: stroke-dashoffset 1s cubic-bezier(.2,.7,.3,1)}
+</style>
 </head>
 <body>
-
-  <!-- ── NAV ── -->
-  <nav>
-    <div class="nav-logo"><span>~/</span>kartik_hariyani</div>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#training">Training</a></li>
-      <li><a href="#goals">Goals</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- ── HERO ── -->
-  <section id="hero">
-    <div class="hero-grid-bg"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow">Available for internships & opportunities</div>
-      <h1 class="hero-name">Kartik Hariyani</h1>
-      <div class="hero-terminal" id="typewriter"><span class="cursor"></span></div>
-      <p class="hero-desc">
-        Third-year Computer Engineering student building towards a career in Cloud &amp; DevOps.
-        I turn infrastructure challenges into automated, scalable solutions.
-      </p>
-      <div class="hero-ctas">
-        <a href="#contact" class="btn-primary">Get in Touch</a>
-        <a href="#skills" class="btn-ghost">View My Skills</a>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ── ABOUT ── -->
-  <section id="about">
-    <div class="reveal">
-      <div class="section-label">// 01 — about</div>
-      <div class="section-title">Who I Am</div>
-    </div>
-    <div class="about-grid reveal">
-      <div class="about-text">
-        <p>
-          I'm a <strong>third-year Computer Engineering student</strong> at Vishwakarma Government Engineering College, Ahmedabad, 
-          with a clear direction: Cloud Computing, AWS, and DevOps.
-        </p>
-        <p>
-          I've completed <strong>DevOps training</strong> and actively work with Linux, Git, CI/CD pipelines, 
-          networking fundamentals, and cloud technologies to build a solid engineering foundation.
-        </p>
-        <p>
-          My goal is to become a <strong>Cloud or DevOps Engineer</strong> — building systems that are 
-          scalable, automated, and reliable. I'm also deepening my interest in <strong>Machine Learning and AI</strong> 
-          to stay at the intersection of infrastructure and intelligence.
-        </p>
-      </div>
-      <div class="about-stats">
-        <div class="stat-item">
-          <div class="stat-num">3rd</div>
-          <div class="stat-label">Year — B.Tech Computer Engineering</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">AWS</div>
-          <div class="stat-label">Cloud Services — Primary Focus</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">DevOps</div>
-          <div class="stat-label">Training Completed</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">∞</div>
-          <div class="stat-label">Curiosity — Always Learning</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ── SKILLS ── -->
-  <section id="skills">
-    <div class="reveal">
-      <div class="section-label">// 02 — skills</div>
-      <div class="section-title">Technical Arsenal</div>
-    </div>
-    <div class="skills-categories">
-
-      <div class="skill-category reveal">
-        <div class="skill-cat-header">
-          <div class="skill-cat-icon">☁</div>
-          <div class="skill-cat-name">Cloud &amp; DevOps</div>
-        </div>
-        <div class="skill-tags">
-          <span class="tag highlight">AWS Cloud Services</span>
-          <span class="tag highlight">CI/CD Pipelines</span>
-          <span class="tag highlight">DevOps Practices</span>
-          <span class="tag">Infrastructure Automation</span>
-          <span class="tag">Cloud Architecture</span>
-        </div>
-      </div>
-
-      <div class="skill-category reveal">
-        <div class="skill-cat-header">
-          <div class="skill-cat-icon">⚙</div>
-          <div class="skill-cat-name">Systems &amp; OS</div>
-        </div>
-        <div class="skill-tags">
-          <span class="tag highlight">Linux</span>
-          <span class="tag highlight">Shell Scripting (Bash)</span>
-          <span class="tag">Networking Fundamentals</span>
-          <span class="tag">System Administration</span>
-        </div>
-      </div>
-
-      <div class="skill-category reveal">
-        <div class="skill-cat-header">
-          <div class="skill-cat-icon">💻</div>
-          <div class="skill-cat-name">Programming &amp; CS Fundamentals</div>
-        </div>
-        <div class="skill-tags">
-          <span class="tag highlight">Programming</span>
-          <span class="tag highlight">Data Structures</span>
-          <span class="tag">Databases</span>
-          <span class="tag">Algorithms</span>
-        </div>
-      </div>
-
-      <div class="skill-category reveal">
-        <div class="skill-cat-header">
-          <div class="skill-cat-icon">🔧</div>
-          <div class="skill-cat-name">Tools &amp; Version Control</div>
-        </div>
-        <div class="skill-tags">
-          <span class="tag highlight">Git</span>
-          <span class="tag highlight">GitHub</span>
-          <span class="tag">Version Control Workflows</span>
-          <span class="tag">Collaboration</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ── TRAINING ── -->
-  <section id="training">
-    <div class="reveal">
-      <div class="section-label">// 03 — training</div>
-      <div class="section-title">Completed Training</div>
-    </div>
-    <div class="training-card reveal">
-      <div class="training-badge">🛠</div>
-      <div class="training-info">
-        <h3>DevOps Engineering Training</h3>
-        <p>
-          Comprehensive hands-on training covering the core DevOps lifecycle — 
-          from version control and CI/CD pipelines to containerization, infrastructure automation, 
-          monitoring, and cloud deployment practices. Built a working foundation for production-ready workflows.
-        </p>
-        <div class="badge-completed">COMPLETED</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ── GOALS ── -->
-  <section id="goals">
-    <div class="reveal">
-      <div class="section-label">// 04 — goals</div>
-      <div class="section-title">What I'm Building Towards</div>
-    </div>
-    <div class="goals-grid">
-      <div class="goal-card reveal">
-        <div class="goal-icon">☁️</div>
-        <h3>Master AWS</h3>
-        <p>Earn AWS certifications and gain deep expertise across core cloud services.</p>
-      </div>
-      <div class="goal-card reveal">
-        <div class="goal-icon">⚡</div>
-        <h3>Cloud / DevOps Engineer</h3>
-        <p>Build a career designing scalable, automated cloud infrastructure.</p>
-      </div>
-      <div class="goal-card reveal">
-        <div class="goal-icon">🤖</div>
-        <h3>AI & Machine Learning</h3>
-        <p>Deepen AI/ML knowledge to work at the intersection of cloud and intelligence.</p>
-      </div>
-      <div class="goal-card reveal">
-        <div class="goal-icon">🔩</div>
-        <h3>Hardware Knowledge</h3>
-        <p>Strengthen computer hardware fundamentals to complement systems engineering.</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ── CONTACT ── -->
-  <section id="contact">
-    <div class="contact-inner reveal">
-      <div class="section-label">// 05 — contact</div>
-      <h2>Let's Connect</h2>
-      <p>
-        I'm open to internships, collaborative projects, and conversations about Cloud &amp; DevOps.
-        Reach out — I'd love to connect with engineers and teams building the future.
-      </p>
-      <div class="contact-links">
-        <a href="mailto:kartik@example.com" class="contact-link">
-          <span>✉</span> email
-        </a>
-        <a href="https://linkedin.com/in/kartikhariyani" target="_blank" class="contact-link">
-          <span>in</span> linkedin
-        </a>
-        <a href="https://github.com/kartikhariyani" target="_blank" class="contact-link">
-          <span>⌥</span> github
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FOOTER ── -->
-  <footer>
-    <p>© 2025 <span>Kartik Hariyani</span> — All rights reserved</p>
-    <p>Built with <span>precision</span> &amp; passion for cloud</p>
-  </footer>
-
-  <script>
-    // ── TYPEWRITER ──
-    const lines = [
-      'Cloud & DevOps Enthusiast',
-      'AWS Learner',
-      'Computer Engineering Student',
-      'Building Scalable Systems',
-    ];
-    let li = 0, ci = 0, deleting = false;
-    const tw = document.getElementById('typewriter');
-
-    function type() {
-      const current = lines[li];
-      if (!deleting) {
-        ci++;
-        tw.innerHTML = current.slice(0, ci) + '<span class="cursor"></span>';
-        if (ci === current.length) {
-          deleting = true;
-          setTimeout(type, 1800);
-          return;
-        }
-        setTimeout(type, 55);
-      } else {
-        ci--;
-        tw.innerHTML = current.slice(0, ci) + '<span class="cursor"></span>';
-        if (ci === 0) {
-          deleting = false;
-          li = (li + 1) % lines.length;
-          setTimeout(type, 300);
-          return;
-        }
-        setTimeout(type, 28);
-      }
+<div id="root">
+  <div id="fallback" style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;font-family:sans-serif;color:#8fb3ff;background:#060a17;">
+    <div>Loading Interviewer…</div>
+    <div style="font-size:12px;color:#5b6b8c;max-width:420px;text-align:center;">If this message doesn't go away after a few seconds, your browser or network is blocking a required script (React / Babel / Tailwind). Try opening this file directly in a normal browser tab instead of a preview pane, and check the browser console (F12) for the failing request.</div>
+  </div>
+</div>
+<script>
+  window.addEventListener('error', function(e){
+    var root = document.getElementById('root');
+    if (root && !root.dataset.mounted) {
+      root.innerHTML = '<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;font-family:monospace;color:#f0546b;background:#060a17;padding:24px;text-align:center;">' +
+        '<div style="font-size:16px;">Something failed to load</div>' +
+        '<div style="font-size:12px;color:#ccc;max-width:600px;">' + (e.message || 'Unknown error') + '</div>' +
+        '<div style="font-size:11px;color:#5b6b8c;max-width:600px;">Source: ' + (e.filename || 'inline script') + (e.lineno ? (':' + e.lineno) : '') + '</div>' +
+        '</div>';
     }
-    setTimeout(type, 800);
+  });
+  setTimeout(function(){
+    var root = document.getElementById('root');
+    if (root && !root.dataset.mounted) {
+      var fb = document.getElementById('fallback');
+      if (fb) fb.querySelector('div').textContent = 'Still loading… this is taking longer than expected.';
+    }
+  }, 4000);
+</script>
 
-    // ── SCROLL REVEAL ──
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
+<script type="text/babel" data-presets="react">
+const {useState,useEffect,useRef,useMemo} = React;
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
+/* ======================= ICONS (inline SVG, no deps) ======================= */
+const Icon = ({name, size=18, className=""}) => {
+  const p = {width:size,height:size,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:1.8,strokeLinecap:"round",strokeLinejoin:"round",className};
+  const paths = {
+    logo: <><path d="M12 2l7 4v6c0 5-3.4 8.4-7 10-3.6-1.6-7-5-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/></>,
+    home: <><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></>,
+    briefcase: <><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></>,
+    users: <><circle cx="9" cy="8" r="3.2"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="17.5" cy="9" r="2.6"/><path d="M15.5 14c2.8.4 5 2.4 5 6"/></>,
+    calendar: <><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/></>,
+    video: <><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></>,
+    check: <><path d="M20 6L9 17l-5-5"/></>,
+    x: <><path d="M18 6L6 18M6 6l12 12"/></>,
+    bell: <><path d="M6 10a6 6 0 0112 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M9.5 20a2.5 2.5 0 005 0"/></>,
+    search: <><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></>,
+    moon: <><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></>,
+    sun: <><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></>,
+    chart: <><path d="M4 20V10M12 20V4M20 20v-7"/></>,
+    money: <><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 9v0M18 15v0"/></>,
+    shield: <><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></>,
+    doc: <><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></>,
+    star: <path d="M12 2.5l2.9 6 6.6.6-5 4.4 1.5 6.5L12 16.9 6 20l1.5-6.5-5-4.4 6.6-.6L12 2.5z"/>,
+    arrowRight: <><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></>,
+    plus: <><path d="M12 5v14M5 12h14"/></>,
+    mic: <><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0014 0"/><path d="M12 17v4M8 21h8"/></>,
+    micOff: <><path d="M2 2l20 20"/><path d="M9 5a3 3 0 016 0v6a3 3 0 01-.4 1.5"/><path d="M5 10a7 7 0 0010 6.3"/><path d="M12 17v4M8 21h8"/></>,
+    camOff: <><path d="M2 2l20 20"/><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></>,
+    phoneOff: <><path d="M2 2l20 20"/><path d="M10.5 13.5c2 2 3 2.7 3 2.7l2-2s2.5.5 4 2c.6.6.4 2-.3 2.4-8 4.7-16-3.3-11.3-11.3.4-.7 1.8-.9 2.4-.3 1.5 1.5 2 4 2 4l-2 2.5z"/></>,
+    send: <><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></>,
+    upload: <><path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/></>,
+    clock: <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></>,
+    mapPin: <><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></>,
+    building: <><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2"/></>,
+    settings: <><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-1.8-.3 1.6 1.6 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.6 1.6 0 00-1-1.5 1.6 1.6 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00.3-1.8 1.6 1.6 0 00-1.5-1H3a2 2 0 110-4h.1a1.6 1.6 0 001.5-1 1.6 1.6 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.6 1.6 0 001.8.3H9a1.6 1.6 0 001-1.5V3a2 2 0 114 0v.1a1.6 1.6 0 001 1.5 1.6 1.6 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8V9a1.6 1.6 0 001.5 1H21a2 2 0 110 4h-.1a1.6 1.6 0 00-1.5 1z"/></>,
+    logout: <><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></>,
+    code: <><path d="M8 6L2 12l6 6M16 6l6 6-6 6"/></>,
+    card: <><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></>,
+    download: <><path d="M12 4v12M6 10l6 6 6-6"/><path d="M4 20h16"/></>,
+    filter: <><path d="M4 5h16M7 12h10M10 19h4"/></>,
+    trend: <><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></>,
+    alert: <><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17v0"/></>,
+    edit: <><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></>,
+    trash: <><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/></>,
+    globe: <><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18 14 14 0 010-18z"/></>,
+    zap: <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>,
+    linkedin: <><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7M7 7v.01M11 17v-4.5a2.5 2.5 0 015 0V17M11 10v7"/></>,
+  };
+  return <svg {...p}>{paths[name]}</svg>;
+};
+
+/* ======================= MOCK DATA ======================= */
+const COMPANIES = {
+  nimbus: {name:"Nimbus Cloud Systems", logo:"NC", color:"#5b8def"},
+};
+
+const JOBS = [
+  {id:"J-1042", title:"Senior Frontend Engineer", company:"Nimbus Cloud Systems", logo:"NC", location:"Bengaluru, IN (Hybrid)", type:"Full-time", level:"Senior", salary:"₹28L – ₹40L", posted:"3 days ago", applicants:64, tags:["React","TypeScript","GraphQL","Design Systems"],
+    desc:"Own the design-system and core product surfaces for Nimbus's data platform. You'll pair closely with product and design to ship fast without breaking things.",
+    responsibilities:["Lead frontend architecture for the analytics workspace","Mentor 2 mid-level engineers","Partner with design on the component library","Drive Core Web Vitals budget across the app"],
+    requirements:["5+ years building production React apps","Strong TypeScript and testing discipline","Experience with design systems at scale","Comfortable owning ambiguity"],
+    stage:"Interviewing"},
+  {id:"J-1043", title:"Backend Engineer — Payments", company:"Nimbus Cloud Systems", logo:"NC", location:"Remote (India)", type:"Full-time", level:"Mid", salary:"₹22L – ₹32L", posted:"6 days ago", applicants:41, tags:["Node.js","Postgres","AWS","Distributed Systems"],
+    desc:"Build the ledger and settlement services that power payouts across the platform.",
+    responsibilities:["Design idempotent payment workflows","Own reconciliation and settlement jobs","Improve p99 latency on the ledger service"],
+    requirements:["3+ years backend experience","Experience with financial/ledger systems a plus","Strong grasp of distributed systems fundamentals"],
+    stage:"Screening"},
+  {id:"J-1044", title:"Product Designer", company:"Nimbus Cloud Systems", logo:"NC", location:"Bengaluru, IN", type:"Full-time", level:"Mid", salary:"₹18L – ₹26L", posted:"1 week ago", applicants:89, tags:["Figma","Design Systems","B2B SaaS"],
+    desc:"Shape end-to-end flows for our enterprise dashboard, from first sketch to shipped pixel.",
+    responsibilities:["Own core dashboard flows","Run user research with enterprise customers","Maintain and extend the design system"],
+    requirements:["4+ years product design experience","Portfolio showing B2B SaaS work","Strong systems thinking"],
+    stage:"Open"},
+  {id:"J-1045", title:"DevOps Engineer", company:"Nimbus Cloud Systems", logo:"NC", location:"Pune, IN (Hybrid)", type:"Contract", level:"Senior", salary:"₹1.8L/mo", posted:"2 weeks ago", applicants:23, tags:["Kubernetes","Terraform","AWS","CI/CD"],
+    desc:"Harden our deployment pipeline and multi-region infrastructure ahead of our SOC 2 audit.",
+    responsibilities:["Own CI/CD across 6 services","Implement infra-as-code with Terraform","Lead incident response runbooks"],
+    requirements:["5+ years in DevOps/SRE roles","Deep AWS and Kubernetes experience","Experience with compliance-driven environments"],
+    stage:"Open"},
+];
+
+const CANDIDATES = [
+  {id:"C-201", name:"Ananya Rao", role:"Senior Frontend Engineer", avatar:"AR", match:92, stage:"Interview scheduled", applied:"2 days ago", exp:"6 yrs", skills:["React","TypeScript","GraphQL"], resume:"Ananya_Rao_Resume.pdf"},
+  {id:"C-202", name:"Rohit Malhotra", role:"Senior Frontend Engineer", avatar:"RM", match:87, stage:"Assessment sent", applied:"3 days ago", exp:"5 yrs", skills:["React","Next.js","Redux"], resume:"Rohit_Malhotra_Resume.pdf"},
+  {id:"C-203", name:"Kavya Iyer", role:"Backend Engineer — Payments", avatar:"KI", match:95, stage:"Interview scheduled", applied:"1 day ago", exp:"4 yrs", skills:["Node.js","Postgres","AWS"], resume:"Kavya_Iyer_Resume.pdf"},
+  {id:"C-204", name:"Devansh Gupta", role:"Product Designer", avatar:"DG", match:78, stage:"Applied", applied:"5 days ago", exp:"4 yrs", skills:["Figma","Design Systems"], resume:"Devansh_Gupta_Resume.pdf"},
+  {id:"C-205", name:"Priya Sharma", role:"DevOps Engineer", avatar:"PS", match:90, stage:"Offer sent", applied:"1 week ago", exp:"7 yrs", skills:["Kubernetes","Terraform"], resume:"Priya_Sharma_Resume.pdf"},
+  {id:"C-206", name:"Aarav Mehta", role:"Backend Engineer — Payments", avatar:"AM", match:83, stage:"Applied", applied:"2 days ago", exp:"3 yrs", skills:["Node.js","Kafka"], resume:"Aarav_Mehta_Resume.pdf"},
+];
+
+const INTERVIEWS = [
+  {id:"I-501", candidate:"Ananya Rao", avatar:"AR", role:"Senior Frontend Engineer", interviewer:"Sana Fernandes", date:"18 Jul 2026", time:"3:00 PM – 4:00 PM IST", type:"Technical Round 2", status:"Confirmed"},
+  {id:"I-502", candidate:"Kavya Iyer", avatar:"KI", role:"Backend Engineer — Payments", interviewer:"Marcus Webb", date:"18 Jul 2026", time:"5:30 PM – 6:15 PM IST", type:"System Design", status:"Confirmed"},
+  {id:"I-503", candidate:"Rohit Malhotra", avatar:"RM", role:"Senior Frontend Engineer", interviewer:"Sana Fernandes", date:"21 Jul 2026", time:"11:00 AM – 12:00 PM IST", type:"Technical Round 1", status:"Pending"},
+  {id:"I-504", candidate:"Devansh Gupta", avatar:"DG", role:"Product Designer", interviewer:"Leah Cho", date:"22 Jul 2026", time:"2:00 PM – 2:45 PM IST", type:"Portfolio Review", status:"Pending"},
+];
+
+const NOTIFICATIONS = [
+  {id:1, title:"Interview confirmed", body:"Ananya Rao confirmed the Technical Round 2 slot.", time:"12m ago", unread:true, icon:"calendar"},
+  {id:2, title:"New application", body:"Aarav Mehta applied for Backend Engineer — Payments.", time:"1h ago", unread:true, icon:"briefcase"},
+  {id:3, title:"Assessment completed", body:"Kavya Iyer scored 91% on the Node.js assessment.", time:"3h ago", unread:true, icon:"doc"},
+  {id:4, title:"Payout processed", body:"₹12,500 payout sent to Sana Fernandes.", time:"Yesterday", unread:false, icon:"money"},
+  {id:5, title:"Job post expiring", body:"DevOps Engineer post expires in 2 days.", time:"Yesterday", unread:false, icon:"alert"},
+];
+
+const EARNINGS = [
+  {id:"P-9001", label:"Technical Round 2 — Ananya Rao", date:"14 Jul 2026", amount:2500, status:"Paid"},
+  {id:"P-9002", label:"System Design — Kavya Iyer", date:"12 Jul 2026", amount:3000, status:"Paid"},
+  {id:"P-9003", label:"Technical Round 1 — Rohit Malhotra", date:"21 Jul 2026", amount:2500, status:"Scheduled"},
+  {id:"P-9004", label:"Portfolio Review — Devansh Gupta", date:"22 Jul 2026", amount:2000, status:"Scheduled"},
+];
+
+const INVOICES = [
+  {id:"INV-2207", plan:"Growth Plan — Monthly", date:"01 Jul 2026", amount:"₹24,999", status:"Paid"},
+  {id:"INV-2158", plan:"Growth Plan — Monthly", date:"01 Jun 2026", amount:"₹24,999", status:"Paid"},
+  {id:"INV-2094", plan:"Growth Plan — Monthly", date:"01 May 2026", amount:"₹24,999", status:"Paid"},
+  {id:"INV-2033", plan:"Starter Plan — Monthly", date:"01 Apr 2026", amount:"₹9,999", status:"Paid"},
+];
+
+const MCQ_QUESTIONS = [
+  {q:"What does the 'virtual DOM' primarily help React optimize?", options:["Network requests","DOM update performance","CSS specificity","Bundle size"], answer:1},
+  {q:"Which HTTP status code indicates a successful POST that created a resource?", options:["200","201","204","301"], answer:1},
+  {q:"In CSS, which property creates a new stacking context reliably?", options:["display: block","position: static","z-index with position set","color"], answer:2},
+  {q:"What is the time complexity of binary search on a sorted array?", options:["O(n)","O(log n)","O(n log n)","O(1)"], answer:1},
+  {q:"Which of these is NOT a valid HTTP method?", options:["PATCH","GET","FETCH","DELETE"], answer:2},
+];
+
+const CODE_PROMPT = {
+  title:"Two Sum — Warm-up",
+  desc:"Given an array of integers nums and an integer target, return the indices of the two numbers that add up to target. Assume exactly one solution exists.",
+  starter:`function twoSum(nums, target) {
+  // your code here
+}
+
+// Example:
+// twoSum([2, 7, 11, 15], 9) -> [0, 1]`,
+};
+
+const ADMIN_USERS = [
+  {id:1, name:"Nimbus Cloud Systems", type:"Company", email:"hr@nimbuscloud.io", joined:"12 Jan 2026", status:"Active"},
+  {id:2, name:"Sana Fernandes", type:"Interviewer", email:"sana.f@interviewer.dev", joined:"03 Feb 2026", status:"Active"},
+  {id:3, name:"Ananya Rao", type:"Candidate", email:"ananya.rao@mail.com", joined:"09 Jul 2026", status:"Active"},
+  {id:4, name:"Marcus Webb", type:"Interviewer", email:"marcus.w@interviewer.dev", joined:"22 Feb 2026", status:"Active"},
+  {id:5, name:"Orbit Retail Pvt Ltd", type:"Company", email:"talent@orbitretail.com", joined:"18 Mar 2026", status:"Suspended"},
+  {id:6, name:"Kavya Iyer", type:"Candidate", email:"kavya.iyer@mail.com", joined:"11 Jul 2026", status:"Active"},
+];
+
+/* ======================= SMALL UI PRIMITIVES ======================= */
+const GlassCard = ({children, className="", hover=false, ...rest}) => (
+  <div className={`glass rounded-2xl ${hover ? "transition-all duration-300 hover:-translate-y-0.5 hover:glow-blue" : ""} ${className}`} {...rest}>{children}</div>
+);
+
+const Badge = ({children, tone="blue"}) => {
+  const tones = {
+    blue:"bg-blue-500/15 text-blue-300 border-blue-400/30",
+    green:"bg-emerald-500/15 text-emerald-300 border-emerald-400/30",
+    amber:"bg-amber-500/15 text-amber-300 border-amber-400/30",
+    red:"bg-rose-500/15 text-rose-300 border-rose-400/30",
+    slate:"bg-white/10 text-slate-300 border-white/15",
+  };
+  return <span className={`text-[11px] font-medium px-2.5 py-1 rounded-full border ${tones[tone]}`}>{children}</span>;
+};
+
+const Avatar = ({initials, size="w-10 h-10", color="#2f6fed"}) => (
+  <div className={`${size} rounded-full flex items-center justify-center font-display font-semibold text-white shrink-0`}
+       style={{background:`linear-gradient(135deg, ${color}, #0b1220)`}}>
+    {initials}
+  </div>
+);
+
+const Button = ({children, variant="primary", className="", ...rest}) => {
+  const base = "inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 active:scale-[.97]";
+  const variants = {
+    primary: "btn-primary text-white",
+    ghost: "btn-ghost text-slate-200 border border-white/15",
+    subtle: "bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10",
+    danger: "bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-400/30",
+  };
+  return <button className={`${base} ${variants[variant]} ${className}`} {...rest}>{children}</button>;
+};
+
+const Input = ({label, className="", ...rest}) => (
+  <label className="block">
+    {label && <span className="text-xs font-medium text-slate-400 mb-1.5 block">{label}</span>}
+    <input className={`w-full bg-white/5 border border-white/12 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder:text-slate-500 ring-input transition-all ${className}`} {...rest} />
+  </label>
+);
+
+const ProgressRing = ({value, size=64, stroke=6, color="#5b8def"}) => {
+  const r = (size - stroke) / 2, c = 2*Math.PI*r;
+  const [off, setOff] = useState(c);
+  useEffect(()=>{ const t = setTimeout(()=> setOff(c - (value/100)*c), 100); return ()=>clearTimeout(t); },[value]);
+  return (
+    <svg width={size} height={size} className="-rotate-90">
+      <circle cx={size/2} cy={size/2} r={r} stroke="rgba(255,255,255,0.1)" strokeWidth={stroke} fill="none"/>
+      <circle cx={size/2} cy={size/2} r={r} stroke={color} strokeWidth={stroke} fill="none" strokeLinecap="round"
+        strokeDasharray={c} strokeDashoffset={off} className="radar-ring"/>
+    </svg>
+  );
+};
+
+const MiniBar = ({data, color="#5b8def", h=64}) => {
+  const max = Math.max(...data);
+  return (
+    <div className="flex items-end gap-1.5" style={{height:h}}>
+      {data.map((v,i)=>(
+        <div key={i} className="flex-1 rounded-t-md transition-all duration-700" style={{height:`${(v/max)*100}%`, background:`linear-gradient(180deg, ${color}, ${color}55)`, minHeight:4}}/>
+      ))}
+    </div>
+  );
+};
+
+const LineSpark = ({data, color="#2fd48c", w=280, h=70}) => {
+  const max = Math.max(...data), min = Math.min(...data);
+  const pts = data.map((v,i)=>{
+    const x = (i/(data.length-1))*w;
+    const y = h - ((v-min)/(max-min||1))*h*0.85 - 6;
+    return `${x},${y}`;
+  }).join(" ");
+  const areaPts = `0,${h} ${pts} ${w},${h}`;
+  return (
+    <svg width="100%" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="overflow-visible">
+      <polygon points={areaPts} fill={color} opacity="0.12"/>
+      <polyline points={pts} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+};
+
+const StatCard = ({icon, label, value, delta, tone="blue", index=0}) => (
+  <GlassCard hover className={`p-5 fade-up fade-up-${index+1}`}>
+    <div className="flex items-start justify-between">
+      <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-blue-500/15 text-blue-300">
+        <Icon name={icon} size={18}/>
+      </div>
+      {delta && <Badge tone={delta.startsWith("-") ? "red":"green"}>{delta}</Badge>}
+    </div>
+    <div className="mt-4 text-2xl font-display font-semibold">{value}</div>
+    <div className="text-xs text-slate-400 mt-1">{label}</div>
+  </GlassCard>
+);
+
+const SectionTitle = ({eyebrow, title, sub}) => (
+  <div className="mb-6">
+    {eyebrow && <div className="text-xs font-semibold tracking-widest text-blue-300 uppercase mb-2">{eyebrow}</div>}
+    <h2 className="text-2xl md:text-3xl font-display font-semibold">{title}</h2>
+    {sub && <p className="text-slate-400 mt-2 max-w-2xl">{sub}</p>}
+  </div>
+);
+
+const Toast = ({toast}) => !toast ? null : (
+  <div className="fixed bottom-6 right-6 z-[100] glass-strong rounded-xl px-4 py-3 flex items-center gap-3 fade-up shadow-2xl">
+    <div className="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center"><Icon name="check" size={14}/></div>
+    <span className="text-sm">{toast}</span>
+  </div>
+);
+
+/* ======================= APP SHELL ======================= */
+function TopNav({page, setPage, dark, setDark, session, setSession, setAuthOpen, notifOpen, setNotifOpen}){
+  const isLanding = page === "landing";
+  return (
+    <div className="sticky top-0 z-40">
+      <div className="glass-strong border-x-0 border-t-0 px-4 md:px-8 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={()=>setPage(session?`${session.role}-dashboard`:"landing")}>
+          <div className="w-9 h-9 rounded-xl btn-primary flex items-center justify-center text-white"><Icon name="logo" size={18}/></div>
+          <span className="font-display font-semibold text-lg tracking-tight">Interviewer</span>
+        </div>
+
+        {isLanding && (
+          <div className="hidden md:flex items-center gap-8 text-sm text-slate-300">
+            <a className="hover:text-white transition" href="#features">Product</a>
+            <a className="hover:text-white transition" href="#roles">Who it's for</a>
+            <a className="hover:text-white transition" href="#pricing">Pricing</a>
+            <a className="hover:text-white transition" href="#faq">FAQ</a>
+          </div>
+        )}
+
+        <div className="flex items-center gap-2 md:gap-3">
+          {!isLanding && session && (
+            <div className="relative hidden sm:block">
+              <Icon name="search" size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"/>
+              <input placeholder="Search candidates, jobs..." className="bg-white/5 border border-white/10 rounded-full pl-9 pr-4 py-2 text-xs w-56 lg:w-72 placeholder:text-slate-500 ring-input"/>
+            </div>
+          )}
+
+          <button onClick={()=>setDark(!dark)} className="w-9 h-9 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/10 transition">
+            <Icon name={dark?"sun":"moon"} size={15}/>
+          </button>
+
+          {!isLanding && session && (
+            <div className="relative">
+              <button onClick={()=>setNotifOpen(!notifOpen)} className="w-9 h-9 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/10 transition relative">
+                <Icon name="bell" size={15}/>
+                <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-rose-400 pulse-dot"/>
+              </button>
+              {notifOpen && (
+                <div className="absolute right-0 mt-2 w-80 glass-strong rounded-2xl p-2 shadow-2xl fade-up">
+                  <div className="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Notifications</div>
+                  <div className="max-h-80 overflow-y-auto scrollbar-none">
+                    {NOTIFICATIONS.map(n=>(
+                      <div key={n.id} className="flex gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition cursor-pointer">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${n.unread?"bg-blue-500/20 text-blue-300":"bg-white/5 text-slate-400"}`}><Icon name={n.icon} size={14}/></div>
+                        <div className="min-w-0">
+                          <div className="text-xs font-medium truncate">{n.title}</div>
+                          <div className="text-[11px] text-slate-400 line-clamp-2">{n.body}</div>
+                          <div className="text-[10px] text-slate-500 mt-0.5">{n.time}</div>
+                        </div>
+                        {n.unread && <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 ml-auto shrink-0"/>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {session ? (
+            <div className="flex items-center gap-2 pl-1">
+              <Avatar initials={session.initials} size="w-9 h-9" color={session.color}/>
+              <button onClick={()=>{setSession(null); setPage("landing");}} className="hidden md:inline-flex text-slate-400 hover:text-white transition p-2" title="Log out">
+                <Icon name="logout" size={16}/>
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <button onClick={()=>setAuthOpen("login")} className="text-sm text-slate-300 hover:text-white transition px-3 py-2 hidden sm:inline-block">Log in</button>
+              <Button onClick={()=>setAuthOpen("register")} className="!py-2 !px-4 text-xs md:text-sm">Get started <Icon name="arrowRight" size={14}/></Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Sidebar({page, setPage, session, mobileOpen, setMobileOpen}){
+  if(!session) return null;
+  const items = {
+    company: [
+      {id:"company-dashboard", label:"Dashboard", icon:"home"},
+      {id:"jobs", label:"Job Postings", icon:"briefcase"},
+      {id:"candidates", label:"Candidates", icon:"users"},
+      {id:"scheduling", label:"Scheduling", icon:"calendar"},
+      {id:"payments", label:"Payments", icon:"money"},
+      {id:"reports", label:"Reports", icon:"chart"},
+    ],
+    interviewer: [
+      {id:"interviewer-dashboard", label:"Dashboard", icon:"home"},
+      {id:"scheduling", label:"My Schedule", icon:"calendar"},
+      {id:"candidates", label:"Assigned Candidates", icon:"users"},
+      {id:"payments", label:"Earnings", icon:"money"},
+    ],
+    candidate: [
+      {id:"candidate-dashboard", label:"Dashboard", icon:"home"},
+      {id:"jobs", label:"Browse Jobs", icon:"briefcase"},
+      {id:"scheduling", label:"My Interviews", icon:"calendar"},
+      {id:"assessment", label:"Assessments", icon:"doc"},
+    ],
+    admin: [
+      {id:"admin-dashboard", label:"Overview", icon:"home"},
+      {id:"admin-users", label:"Users", icon:"users"},
+      {id:"reports", label:"Analytics", icon:"chart"},
+      {id:"payments", label:"Transactions", icon:"money"},
+    ],
+  };
+  const list = items[session.role] || [];
+  return (
+    <>
+      <div className={`fixed inset-0 bg-black/50 z-30 md:hidden ${mobileOpen?"block":"hidden"}`} onClick={()=>setMobileOpen(false)}/>
+      <aside className={`fixed md:sticky top-[61px] h-[calc(100vh-61px)] w-64 shrink-0 z-30 glass md:bg-transparent md:glass-none border-r border-white/10
+        transition-transform duration-300 ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"} md:block`}>
+        <div className="p-4 flex flex-col h-full">
+          <div className="glass rounded-2xl p-4 mb-4">
+            <div className="flex items-center gap-3">
+              <Avatar initials={session.initials} color={session.color}/>
+              <div className="min-w-0">
+                <div className="text-sm font-medium truncate">{session.name}</div>
+                <div className="text-[11px] text-slate-400 capitalize">{session.role}</div>
+              </div>
+            </div>
+          </div>
+          <nav className="space-y-1 flex-1">
+            {list.map(it=>(
+              <button key={it.id} onClick={()=>{setPage(it.id); setMobileOpen(false);}}
+                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm transition-all
+                  ${page===it.id ? "bg-blue-500/20 text-white border border-blue-400/30" : "text-slate-400 hover:text-white hover:bg-white/5 border border-transparent"}`}>
+                <Icon name={it.icon} size={16}/> {it.label}
+              </button>
+            ))}
+          </nav>
+          <button className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm text-slate-400 hover:text-white hover:bg-white/5 transition">
+            <Icon name="settings" size={16}/> Settings
+          </button>
+        </div>
+      </aside>
+    </>
+  );
+}
+
+/* ======================= LANDING PAGE ======================= */
+function Landing({setAuthOpen}){
+  const stats = [
+    {v:"12,400+", l:"Interviews completed"},
+    {v:"3,200+", l:"Verified interviewers"},
+    {v:"860+", l:"Hiring companies"},
+    {v:"41%", l:"Faster time-to-hire"},
+  ];
+  const roles = [
+    {icon:"building", title:"Companies", desc:"Post roles, tap a vetted interviewer bench, and track every candidate from applied to offer — in one pipeline.", cta:"For companies"},
+    {icon:"users", title:"Interviewers", desc:"Get matched to interviews that fit your stack and calendar. Run them, score them, get paid — no chasing invoices.", cta:"For interviewers"},
+    {icon:"star", title:"Candidates", desc:"Apply once, interview on your terms, and see exactly where you stand. No more black-hole applications.", cta:"For candidates"},
+  ];
+  const features = [
+    {icon:"calendar", title:"Smart scheduling", desc:"Two-way calendar sync finds the slot that works for everyone — no email tag."},
+    {icon:"video", title:"Built-in video rooms", desc:"HD interviews with live notes, code sharing, and recording — no extra app."},
+    {icon:"doc", title:"MCQ & coding assessments", desc:"Auto-graded screens that filter for signal before anyone's time is spent."},
+    {icon:"chart", title:"Pipeline analytics", desc:"See funnel drop-off, interviewer scorecards, and time-to-hire at a glance."},
+    {icon:"shield", title:"Vetted interviewer bench", desc:"Every interviewer is background-checked and rated after each session."},
+    {icon:"money", title:"Instant payouts", desc:"Interviewers get paid automatically the moment feedback is submitted."},
+  ];
+  return (
+    <div className="relative overflow-hidden">
+      <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-blue-600/25 blob"/>
+      <div className="absolute top-40 -right-40 w-[420px] h-[420px] rounded-full bg-indigo-500/20 blob2"/>
+
+      {/* HERO */}
+      <section className="relative px-4 md:px-8 pt-16 md:pt-24 pb-20 max-w-6xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs text-slate-300 fade-up mb-6">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot"/> Live: 214 interviews running right now
+        </div>
+        <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.08] fade-up fade-up-1">
+          Hire on <span className="grad-text">proof</span>,<br/> not paper.
+        </h1>
+        <p className="text-slate-400 text-base md:text-lg mt-6 max-w-xl mx-auto fade-up fade-up-2">
+          Interviewer connects companies, expert interviewers, and candidates in one live pipeline — from job post to signed offer.
+        </p>
+        <div className="flex items-center justify-center gap-3 mt-8 fade-up fade-up-3">
+          <Button onClick={()=>setAuthOpen("register")} className="px-6 py-3 text-sm">Start hiring free <Icon name="arrowRight" size={15}/></Button>
+          <Button variant="ghost" onClick={()=>setAuthOpen("register")} className="px-6 py-3 text-sm">I'm a candidate</Button>
+        </div>
+
+        {/* signature: connection pulse */}
+        <div className="mt-16 relative fade-up fade-up-4">
+          <GlassCard className="p-6 md:p-10 mx-auto max-w-4xl">
+            <div className="flex items-center justify-between gap-4 md:gap-10">
+              {[{l:"Company",i:"building",c:"#5b8def"},{l:"Interviewer",i:"users",c:"#2fd48c"},{l:"Candidate",i:"star",c:"#f5a623"}].map((n,idx)=>(
+                <React.Fragment key={n.l}>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center glass" style={{color:n.c}}><Icon name={n.i} size={24}/></div>
+                    <span className="text-xs text-slate-400">{n.l}</span>
+                  </div>
+                  {idx<2 && (
+                    <div className="flex-1 flex items-end gap-0.5 h-8">
+                      {Array.from({length:14}).map((_,i)=>(
+                        <div key={i} className="wave-bar flex-1 rounded-full bg-blue-400/50" style={{height:`${20+((i*37)%80)}%`, animationDelay:`${i*0.06}s`}}/>
+                      ))}
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10 pt-8 border-t border-white/10">
+              {stats.map(s=>(
+                <div key={s.l}>
+                  <div className="font-display text-2xl md:text-3xl font-semibold">{s.v}</div>
+                  <div className="text-xs text-slate-400 mt-1">{s.l}</div>
+                </div>
+              ))}
+            </div>
+          </GlassCard>
+        </div>
+      </section>
+
+      {/* ROLES */}
+      <section id="roles" className="px-4 md:px-8 py-16 max-w-6xl mx-auto">
+        <SectionTitle eyebrow="One platform, three seats" title="Built for everyone at the table" sub="Each role gets a purpose-built workspace — not a generic dashboard stretched three ways."/>
+        <div className="grid md:grid-cols-3 gap-5">
+          {roles.map((r,i)=>(
+            <GlassCard hover key={r.title} className={`p-6 fade-up fade-up-${i+1}`}>
+              <div className="w-11 h-11 rounded-xl bg-blue-500/15 text-blue-300 flex items-center justify-center mb-4"><Icon name={r.icon} size={20}/></div>
+              <h3 className="font-display text-lg font-semibold mb-2">{r.title}</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">{r.desc}</p>
+              <button className="text-sm text-blue-300 mt-4 inline-flex items-center gap-1.5 hover:gap-2.5 transition-all">{r.cta} <Icon name="arrowRight" size={14}/></button>
+            </GlassCard>
+          ))}
+        </div>
+      </section>
+
+      {/* FEATURES */}
+      <section id="features" className="px-4 md:px-8 py-16 max-w-6xl mx-auto">
+        <SectionTitle eyebrow="Everything included" title="One pipeline, zero duct tape" sub="From the first job post to the signed offer letter, every step lives in the same system of record."/>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {features.map((f,i)=>(
+            <GlassCard hover key={f.title} className={`p-6 fade-up fade-up-${(i%4)+1}`}>
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4 text-blue-300"><Icon name={f.icon} size={18}/></div>
+              <h4 className="font-medium mb-1.5">{f.title}</h4>
+              <p className="text-sm text-slate-400 leading-relaxed">{f.desc}</p>
+            </GlassCard>
+          ))}
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section id="pricing" className="px-4 md:px-8 py-16 max-w-6xl mx-auto">
+        <SectionTitle eyebrow="Simple pricing" title="Pay for hires, not headcount" sub="Candidates and interviewers are always free."/>
+        <div className="grid md:grid-cols-3 gap-5">
+          {[
+            {name:"Starter", price:"₹9,999", per:"/mo", desc:"For teams making their first few specialist hires.", features:["3 active job posts","Access to interviewer bench","Video interviews","Basic reports"]},
+            {name:"Growth", price:"₹24,999", per:"/mo", desc:"For scaling teams hiring every month.", features:["Unlimited job posts","Priority interviewer matching","Coding & MCQ assessments","Advanced analytics","Calendar sync"], featured:true},
+            {name:"Enterprise", price:"Custom", per:"", desc:"For orgs with compliance & volume needs.", features:["SSO & audit logs","Dedicated interviewer pool","Custom integrations","SLA & onboarding manager"]},
+          ].map(p=>(
+            <GlassCard key={p.name} className={`p-6 relative ${p.featured ? "glow-blue border-blue-400/40" : ""}`}>
+              {p.featured && <div className="absolute -top-3 left-6"><Badge tone="blue">Most popular</Badge></div>}
+              <h3 className="font-display text-lg font-semibold">{p.name}</h3>
+              <div className="flex items-end gap-1 mt-3">
+                <span className="text-3xl font-display font-semibold">{p.price}</span>
+                <span className="text-slate-400 text-sm mb-1">{p.per}</span>
+              </div>
+              <p className="text-sm text-slate-400 mt-2">{p.desc}</p>
+              <div className="h-px bg-white/10 my-5"/>
+              <ul className="space-y-2.5">
+                {p.features.map(f=>(
+                  <li key={f} className="flex items-center gap-2.5 text-sm text-slate-300"><Icon name="check" size={14} className="text-emerald-400 shrink-0"/>{f}</li>
+                ))}
+              </ul>
+              <Button variant={p.featured?"primary":"subtle"} className="w-full mt-6">Choose {p.name}</Button>
+            </GlassCard>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="px-4 md:px-8 py-16 max-w-3xl mx-auto">
+        <SectionTitle eyebrow="Questions" title="Frequently asked"/>
+        <div className="space-y-3">
+          {[
+            {q:"How are interviewers vetted?", a:"Every interviewer completes an identity check and a domain assessment, then earns a live rating after each session they run."},
+            {q:"Can candidates use Interviewer for free?", a:"Yes — creating a profile, applying to jobs, and taking interviews is always free for candidates."},
+            {q:"Does it integrate with our calendar?", a:"Interviewer syncs two-way with Google Calendar, so scheduling respects real availability on both sides."},
+            {q:"How do interviewer payouts work?", a:"Payouts are released automatically once feedback is submitted, straight to the interviewer's linked account."},
+          ].map(f=>(
+            <details key={f.q} className="glass rounded-xl px-5 py-4 group">
+              <summary className="cursor-pointer list-none flex items-center justify-between text-sm font-medium">
+                {f.q}
+                <Icon name="plus" size={16} className="text-slate-400 group-open:rotate-45 transition-transform"/>
+              </summary>
+              <p className="text-sm text-slate-400 mt-3 leading-relaxed">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="px-4 md:px-8 py-20 max-w-4xl mx-auto text-center">
+        <GlassCard className="p-10 md:p-14 glow-blue">
+          <h2 className="font-display text-2xl md:text-3xl font-semibold">Ready to build a hiring pipeline people trust?</h2>
+          <p className="text-slate-400 mt-3">Set up your first job post in under five minutes.</p>
+          <div className="flex items-center justify-center gap-3 mt-7">
+            <Button className="px-6 py-3">Create free account</Button>
+            <Button variant="ghost" className="px-6 py-3">Talk to sales</Button>
+          </div>
+        </GlassCard>
+      </section>
+
+      <footer className="px-4 md:px-8 py-10 border-t border-white/10 max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+        <div className="flex items-center gap-2"><Icon name="logo" size={16}/> <span>Interviewer, Inc. © 2026</span></div>
+        <div className="flex gap-6">
+          <a className="hover:text-white transition" href="#">Privacy</a>
+          <a className="hover:text-white transition" href="#">Terms</a>
+          <a className="hover:text-white transition" href="#">Contact</a>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+/* ======================= AUTH MODAL ======================= */
+function AuthModal({mode, setMode, onAuth}){
+  const [role, setRole] = useState("company");
+  const [step, setStep] = useState("form"); // form | sent
+  if(!mode) return null;
+  const roles = [
+    {id:"company", label:"Company", icon:"building"},
+    {id:"interviewer", label:"Interviewer", icon:"users"},
+    {id:"candidate", label:"Candidate", icon:"star"},
+  ];
+  const close = ()=>{ setMode(null); setStep("form"); };
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <GlassCard className="w-full max-w-md p-7 relative fade-up">
+        <button onClick={close} className="absolute top-5 right-5 text-slate-400 hover:text-white"><Icon name="x" size={18}/></button>
+
+        <div className="w-10 h-10 rounded-xl btn-primary flex items-center justify-center text-white mb-5"><Icon name="logo" size={18}/></div>
+
+        {mode==="forgot" ? (
+          step==="form" ? (
+            <>
+              <h3 className="font-display text-xl font-semibold mb-1">Reset your password</h3>
+              <p className="text-sm text-slate-400 mb-6">We'll email you a secure reset link.</p>
+              <div className="space-y-4">
+                <Input label="Email address" type="email" placeholder="you@company.com"/>
+                <Button className="w-full" onClick={()=>setStep("sent")}>Send reset link</Button>
+              </div>
+              <p className="text-sm text-slate-400 mt-6 text-center">Remembered it? <button className="text-blue-300 hover:underline" onClick={()=>setMode("login")}>Log in</button></p>
+            </>
+          ) : (
+            <div className="text-center py-4">
+              <div className="w-14 h-14 rounded-full bg-emerald-500/15 text-emerald-300 flex items-center justify-center mx-auto mb-4"><Icon name="check" size={24}/></div>
+              <h3 className="font-display text-lg font-semibold">Check your inbox</h3>
+              <p className="text-sm text-slate-400 mt-2">We sent a password reset link to your email address.</p>
+              <Button variant="subtle" className="w-full mt-6" onClick={()=>setMode("login")}>Back to log in</Button>
+            </div>
+          )
+        ) : (
+          <>
+            <h3 className="font-display text-xl font-semibold mb-1">{mode==="login" ? "Welcome back" : "Create your account"}</h3>
+            <p className="text-sm text-slate-400 mb-6">{mode==="login" ? "Log in to continue to your dashboard." : "Choose how you'll use Interviewer."}</p>
+
+            <div className="grid grid-cols-3 gap-2 mb-5">
+              {roles.map(r=>(
+                <button key={r.id} onClick={()=>setRole(r.id)}
+                  className={`flex flex-col items-center gap-1.5 py-3 rounded-xl border text-xs transition-all
+                  ${role===r.id ? "bg-blue-500/20 border-blue-400/40 text-white" : "border-white/10 text-slate-400 hover:bg-white/5"}`}>
+                  <Icon name={r.icon} size={16}/> {r.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="space-y-3.5">
+              {mode==="register" && <Input label="Full name" placeholder="e.g. Ananya Rao"/>}
+              {mode==="register" && role==="company" && <Input label="Company name" placeholder="e.g. Nimbus Cloud Systems"/>}
+              <Input label="Email address" type="email" placeholder="you@company.com"/>
+              <Input label="Password" type="password" placeholder="••••••••"/>
+              {mode==="login" && (
+                <div className="text-right">
+                  <button className="text-xs text-blue-300 hover:underline" onClick={()=>setMode("forgot")}>Forgot password?</button>
+                </div>
+              )}
+              <Button className="w-full" onClick={()=>onAuth(role)}>{mode==="login" ? "Log in" : "Create account"} <Icon name="arrowRight" size={15}/></Button>
+            </div>
+
+            <p className="text-sm text-slate-400 mt-6 text-center">
+              {mode==="login" ? "New here? " : "Already have an account? "}
+              <button className="text-blue-300 hover:underline" onClick={()=>setMode(mode==="login"?"register":"login")}>
+                {mode==="login" ? "Create an account" : "Log in"}
+              </button>
+            </p>
+          </>
+        )}
+      </GlassCard>
+    </div>
+  );
+}
+
+/* ======================= COMPANY DASHBOARD ======================= */
+function CompanyDashboard({setPage}){
+  return (
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 className="font-display text-2xl font-semibold">Good afternoon, Nimbus 👋</h1>
+          <p className="text-slate-400 text-sm mt-1">Here's how your pipeline is moving today.</p>
+        </div>
+        <Button onClick={()=>setPage("jobs")}><Icon name="plus" size={15}/> Post a job</Button>
+      </div>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <StatCard icon="briefcase" label="Active job posts" value="4" delta="+1 this week" index={0}/>
+        <StatCard icon="users" label="Total applicants" value="217" delta="+18 this week" index={1}/>
+        <StatCard icon="calendar" label="Interviews this week" value="12" delta="+3 vs last week" index={2}/>
+        <StatCard icon="money" label="Avg. cost / hire" value="₹8,400" delta="-6%" index={3}/>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-5 mb-6">
+        <GlassCard className="p-6 lg:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-display font-semibold">Applications, last 8 weeks</h3>
+            <Badge tone="green">+22% growth</Badge>
+          </div>
+          <LineSpark data={[24,31,28,40,38,52,47,61]} h={110}/>
+          <div className="grid grid-cols-4 gap-3 mt-6 pt-5 border-t border-white/10">
+            {[{l:"Applied",v:217,c:"#5b8def"},{l:"Screening",v:96,c:"#f5a623"},{l:"Interviewing",v:41,c:"#2fd48c"},{l:"Offered",v:9,c:"#f0546b"}].map(s=>(
+              <div key={s.l}>
+                <div className="text-lg font-display font-semibold" style={{color:s.c}}>{s.v}</div>
+                <div className="text-[11px] text-slate-400">{s.l}</div>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+
+        <GlassCard className="p-6">
+          <h3 className="font-display font-semibold mb-4">Today's interviews</h3>
+          <div className="space-y-3">
+            {INTERVIEWS.slice(0,3).map(iv=>(
+              <div key={iv.id} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition cursor-pointer" onClick={()=>setPage("video")}>
+                <Avatar initials={iv.avatar} size="w-9 h-9"/>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-medium truncate">{iv.candidate}</div>
+                  <div className="text-[11px] text-slate-400 truncate">{iv.type} · {iv.time}</div>
+                </div>
+                <Badge tone={iv.status==="Confirmed"?"green":"amber"}>{iv.status}</Badge>
+              </div>
+            ))}
+          </div>
+          <Button variant="subtle" className="w-full mt-4" onClick={()=>setPage("scheduling")}>View schedule</Button>
+        </GlassCard>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-5">
+        <GlassCard className="p-6 lg:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-display font-semibold">Open job posts</h3>
+            <button className="text-sm text-blue-300 hover:underline" onClick={()=>setPage("jobs")}>View all</button>
+          </div>
+          <div className="space-y-3">
+            {JOBS.map(j=>(
+              <div key={j.id} className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition cursor-pointer" onClick={()=>setPage("job-details")}>
+                <div className="w-10 h-10 rounded-xl bg-blue-500/15 text-blue-300 flex items-center justify-center font-display text-sm font-semibold shrink-0">{j.logo}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-medium truncate">{j.title}</div>
+                  <div className="text-[11px] text-slate-400">{j.location} · {j.applicants} applicants</div>
+                </div>
+                <Badge tone={j.stage==="Interviewing"?"green":j.stage==="Screening"?"amber":"slate"}>{j.stage}</Badge>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+
+        <GlassCard className="p-6">
+          <h3 className="font-display font-semibold mb-4">Top interviewer bench</h3>
+          <div className="space-y-4">
+            {[{n:"Sana Fernandes",r:"Frontend · React",s:4.9,c:"#5b8def"},{n:"Marcus Webb",r:"Backend · Systems",s:4.8,c:"#2fd48c"},{n:"Leah Cho",r:"Product Design",s:5.0,c:"#f5a623"}].map(p=>(
+              <div key={p.n} className="flex items-center gap-3">
+                <Avatar initials={p.n.split(" ").map(x=>x[0]).join("")} size="w-9 h-9" color={p.c}/>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-medium truncate">{p.n}</div>
+                  <div className="text-[11px] text-slate-400">{p.r}</div>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-amber-300"><Icon name="star" size={12}/>{p.s}</div>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+      </div>
+    </div>
+  );
+}
+
+/* ======================= INTERVIEWER DASHBOARD ======================= */
+function InterviewerDashboard({setPage}){
+  return (
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 className="font-display text-2xl font-semibold">Welcome back, Sana 👋</h1>
+          <p className="text-slate-400 text-sm mt-1">You have 2 interviews today and ₹5,500 pending payout.</p>
+        </div>
+        <Button variant="subtle" onClick={()=>setPage("payments")}><Icon name="money" size={15}/> View earnings</Button>
+      </div>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <StatCard icon="calendar" label="Interviews this month" value="18" delta="+4" index={0}/>
+        <StatCard icon="star" label="Average rating" value="4.9" delta="Top 5%" index={1}/>
+        <StatCard icon="money" label="This month's earnings" value="₹41,500" delta="+12%" index={2}/>
+        <StatCard icon="clock" label="Avg. response time" value="6 min" delta="-2 min" index={3}/>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-5 mb-6">
+        <GlassCard className="p-6 lg:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-display font-semibold">Upcoming interviews</h3>
+            <button className="text-sm text-blue-300 hover:underline" onClick={()=>setPage("scheduling")}>Full calendar</button>
+          </div>
+          <div className="space-y-3">
+            {INTERVIEWS.map(iv=>(
+              <div key={iv.id} className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition">
+                <Avatar initials={iv.avatar} size="w-10 h-10"/>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-medium">{iv.candidate} <span className="text-slate-500 font-normal">· {iv.role}</span></div>
+                  <div className="text-[11px] text-slate-400">{iv.type} · {iv.date}, {iv.time}</div>
+                </div>
+                <Button className="!py-1.5 !px-3 text-xs" onClick={()=>setPage("video")}>Join</Button>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+
+        <GlassCard className="p-6">
+          <h3 className="font-display font-semibold mb-4">Your interview score mix</h3>
+          <div className="flex items-center gap-4 mb-4">
+            <ProgressRing value={92} color="#2fd48c"/>
+            <div>
+              <div className="text-2xl font-display font-semibold">92%</div>
+              <div className="text-xs text-slate-400">Candidates recommended</div>
+            </div>
+          </div>
+          <MiniBar data={[6,9,7,11,8,10,13]} color="#5b8def"/>
+          <div className="text-[11px] text-slate-500 mt-2">Interviews conducted, last 7 weeks</div>
+        </GlassCard>
+      </div>
+
+      <GlassCard className="p-6">
+        <h3 className="font-display font-semibold mb-4">New interview requests</h3>
+        <div className="grid md:grid-cols-2 gap-3">
+          {[{n:"Rohit Malhotra",r:"Senior Frontend Engineer · Technical Round 1", t:"21 Jul, 11:00 AM"},{n:"Aarav Mehta",r:"Backend Engineer — Payments · Screening", t:"23 Jul, 4:00 PM"}].map(req=>(
+            <div key={req.n} className="glass rounded-xl p-4 flex items-start justify-between gap-3">
+              <div>
+                <div className="text-sm font-medium">{req.n}</div>
+                <div className="text-[11px] text-slate-400 mt-1">{req.r}</div>
+                <div className="text-[11px] text-slate-500 mt-1">{req.t}</div>
+              </div>
+              <div className="flex gap-2 shrink-0">
+                <button className="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-300 flex items-center justify-center hover:bg-emerald-500/25"><Icon name="check" size={14}/></button>
+                <button className="w-8 h-8 rounded-lg bg-rose-500/15 text-rose-300 flex items-center justify-center hover:bg-rose-500/25"><Icon name="x" size={14}/></button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </GlassCard>
+    </div>
+  );
+}
+
+/* ======================= CANDIDATE DASHBOARD ======================= */
+function CandidateDashboard({setPage}){
+  return (
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 className="font-display text-2xl font-semibold">Hi Ananya 👋</h1>
+          <p className="text-slate-400 text-sm mt-1">You have 1 interview coming up and 1 assessment waiting.</p>
+        </div>
+        <Button onClick={()=>setPage("jobs")}><Icon name="search" size={15}/> Browse jobs</Button>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-5 mb-6">
+        <GlassCard className="p-6">
+          <div className="flex items-center gap-4">
+            <ProgressRing value={82} color="#5b8def"/>
+            <div>
+              <div className="text-2xl font-display font-semibold">82%</div>
+              <div className="text-xs text-slate-400">Profile complete</div>
+            </div>
+          </div>
+          <div className="mt-4 space-y-2 text-xs">
+            <div className="flex items-center gap-2 text-emerald-300"><Icon name="check" size={13}/> Resume uploaded</div>
+            <div className="flex items-center gap-2 text-emerald-300"><Icon name="check" size={13}/> Skills added</div>
+            <div className="flex items-center gap-2 text-slate-500"><Icon name="alert" size={13}/> Add portfolio link</div>
+          </div>
+          <Button variant="subtle" className="w-full mt-4 text-xs !py-2">Complete profile</Button>
+        </GlassCard>
+
+        <GlassCard className="p-6 lg:col-span-2">
+          <h3 className="font-display font-semibold mb-4">Your applications</h3>
+          <div className="space-y-3">
+            {[
+              {t:"Senior Frontend Engineer", c:"Nimbus Cloud Systems", s:"Interview scheduled", tone:"green"},
+              {t:"Staff Engineer, Platform", c:"Orbit Retail", s:"Under review", tone:"amber"},
+              {t:"Frontend Lead", c:"Vantage Labs", s:"Applied", tone:"slate"},
+            ].map(a=>(
+              <div key={a.t} className="flex items-center justify-between gap-3 p-3 rounded-xl hover:bg-white/5 transition cursor-pointer" onClick={()=>setPage("job-details")}>
+                <div className="min-w-0">
+                  <div className="text-sm font-medium truncate">{a.t}</div>
+                  <div className="text-[11px] text-slate-400">{a.c}</div>
+                </div>
+                <Badge tone={a.tone}>{a.s}</Badge>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-5">
+        <GlassCard className="p-6">
+          <h3 className="font-display font-semibold mb-4">Upcoming interview</h3>
+          <div className="flex items-center gap-4">
+            <Avatar initials="SF" size="w-12 h-12"/>
+            <div className="flex-1">
+              <div className="text-sm font-medium">Technical Round 2 with Sana Fernandes</div>
+              <div className="text-[11px] text-slate-400 mt-1">18 Jul 2026 · 3:00 PM – 4:00 PM IST</div>
+            </div>
+          </div>
+          <div className="flex gap-2 mt-5">
+            <Button className="flex-1" onClick={()=>setPage("video")}><Icon name="video" size={15}/> Join call</Button>
+            <Button variant="subtle" onClick={()=>setPage("scheduling")}>Reschedule</Button>
+          </div>
+        </GlassCard>
+
+        <GlassCard className="p-6">
+          <h3 className="font-display font-semibold mb-4">Recommended for you</h3>
+          <div className="space-y-3">
+            {JOBS.slice(1,3).map(j=>(
+              <div key={j.id} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition cursor-pointer" onClick={()=>setPage("job-details")}>
+                <div className="w-9 h-9 rounded-lg bg-blue-500/15 text-blue-300 flex items-center justify-center font-display text-xs font-semibold shrink-0">{j.logo}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-medium truncate">{j.title}</div>
+                  <div className="text-[11px] text-slate-400">{j.location}</div>
+                </div>
+                <Badge tone="blue">92% match</Badge>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+      </div>
+    </div>
+  );
+}
+
+/* ======================= JOBS LIST ======================= */
+function JobsList({setPage, setActiveJob, session}){
+  const [q,setQ]=useState("");
+  const filtered = JOBS.filter(j=>j.title.toLowerCase().includes(q.toLowerCase()));
+  const isCompany = session?.role==="company";
+  return (
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 className="font-display text-2xl font-semibold">{isCompany?"Job postings":"Browse jobs"}</h1>
+          <p className="text-slate-400 text-sm mt-1">{isCompany?"Manage roles and track applicants.":"Handpicked and open roles matched to your profile."}</p>
+        </div>
+        {isCompany && <Button><Icon name="plus" size={15}/> Post a job</Button>}
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+        <div className="relative flex-1">
+          <Icon name="search" size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500"/>
+          <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search job title..." className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm ring-input placeholder:text-slate-500"/>
+        </div>
+        <Button variant="subtle"><Icon name="filter" size={15}/> Filters</Button>
+      </div>
+
+      <div className="space-y-4">
+        {filtered.map((j,i)=>(
+          <GlassCard hover key={j.id} className={`p-5 fade-up fade-up-${(i%4)+1} cursor-pointer`} onClick={()=>{setActiveJob(j); setPage("job-details");}}>
+            <div className="flex flex-col md:flex-row md:items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-blue-500/15 text-blue-300 flex items-center justify-center font-display font-semibold shrink-0">{j.logo}</div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="font-medium">{j.title}</h3>
+                  <Badge tone="slate">{j.type}</Badge>
+                </div>
+                <div className="text-xs text-slate-400 mt-1 flex items-center gap-3 flex-wrap">
+                  <span className="flex items-center gap-1"><Icon name="building" size={12}/>{j.company}</span>
+                  <span className="flex items-center gap-1"><Icon name="mapPin" size={12}/>{j.location}</span>
+                  <span className="flex items-center gap-1"><Icon name="clock" size={12}/>{j.posted}</span>
+                </div>
+                <div className="flex gap-1.5 mt-2.5 flex-wrap">
+                  {j.tags.map(t=><Badge key={t} tone="blue">{t}</Badge>)}
+                </div>
+              </div>
+              <div className="text-right shrink-0">
+                <div className="text-sm font-medium">{j.salary}</div>
+                <div className="text-[11px] text-slate-400 mt-1">{j.applicants} applicants</div>
+                <Button className="mt-3 !py-1.5 !px-4 text-xs">{isCompany?"Manage":"View & apply"}</Button>
+              </div>
+            </div>
+          </GlassCard>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ======================= JOB DETAILS ======================= */
+function JobDetails({job, setPage, toast}){
+  const j = job || JOBS[0];
+  return (
+    <div className="p-4 md:p-8 max-w-5xl mx-auto">
+      <button onClick={()=>setPage("jobs")} className="text-sm text-slate-400 hover:text-white flex items-center gap-1.5 mb-5"><Icon name="arrowRight" size={14} className="rotate-180"/> Back to jobs</button>
+
+      <GlassCard className="p-6 md:p-8 mb-5">
+        <div className="flex flex-col md:flex-row md:items-center gap-5">
+          <div className="w-16 h-16 rounded-2xl bg-blue-500/15 text-blue-300 flex items-center justify-center font-display text-xl font-semibold shrink-0">{j.logo}</div>
+          <div className="flex-1">
+            <h1 className="font-display text-2xl font-semibold">{j.title}</h1>
+            <div className="text-sm text-slate-400 mt-1.5 flex items-center gap-3 flex-wrap">
+              <span className="flex items-center gap-1"><Icon name="building" size={13}/>{j.company}</span>
+              <span className="flex items-center gap-1"><Icon name="mapPin" size={13}/>{j.location}</span>
+              <span className="flex items-center gap-1"><Icon name="clock" size={13}/>Posted {j.posted}</span>
+            </div>
+            <div className="flex gap-1.5 mt-3 flex-wrap">{j.tags.map(t=><Badge key={t} tone="blue">{t}</Badge>)}</div>
+          </div>
+          <div className="text-right shrink-0">
+            <div className="text-lg font-display font-semibold">{j.salary}</div>
+            <Button className="mt-3" onClick={()=>toast("Application submitted!")}>Apply now</Button>
+          </div>
+        </div>
+      </GlassCard>
+
+      <div className="grid md:grid-cols-3 gap-5">
+        <div className="md:col-span-2 space-y-5">
+          <GlassCard className="p-6">
+            <h3 className="font-display font-semibold mb-3">About the role</h3>
+            <p className="text-sm text-slate-400 leading-relaxed">{j.desc}</p>
+          </GlassCard>
+          <GlassCard className="p-6">
+            <h3 className="font-display font-semibold mb-3">Responsibilities</h3>
+            <ul className="space-y-2.5">
+              {j.responsibilities.map(r=>(
+                <li key={r} className="flex items-start gap-2.5 text-sm text-slate-400"><Icon name="check" size={14} className="text-emerald-400 shrink-0 mt-0.5"/>{r}</li>
+              ))}
+            </ul>
+          </GlassCard>
+          <GlassCard className="p-6">
+            <h3 className="font-display font-semibold mb-3">Requirements</h3>
+            <ul className="space-y-2.5">
+              {j.requirements.map(r=>(
+                <li key={r} className="flex items-start gap-2.5 text-sm text-slate-400"><Icon name="check" size={14} className="text-blue-400 shrink-0 mt-0.5"/>{r}</li>
+              ))}
+            </ul>
+          </GlassCard>
+        </div>
+
+        <div className="space-y-5">
+          <GlassCard className="p-6">
+            <h3 className="font-display font-semibold mb-4">Role snapshot</h3>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between"><span className="text-slate-400">Level</span><span>{j.level}</span></div>
+              <div className="flex justify-between"><span className="text-slate-400">Type</span><span>{j.type}</span></div>
+              <div className="flex justify-between"><span className="text-slate-400">Applicants</span><span>{j.applicants}</span></div>
+              <div className="flex justify-between"><span className="text-slate-400">Salary</span><span>{j.salary}</span></div>
+            </div>
+          </GlassCard>
+          <GlassCard className="p-6">
+            <h3 className="font-display font-semibold mb-2">About {j.company}</h3>
+            <p className="text-sm text-slate-400 leading-relaxed">A cloud data platform used by 900+ engineering teams to ship analytics faster.</p>
+          </GlassCard>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ======================= CANDIDATES (company/interviewer view) ======================= */
+function CandidatesList({setPage}){
+  return (
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 className="font-display text-2xl font-semibold">Candidates</h1>
+          <p className="text-slate-400 text-sm mt-1">Track every applicant across your open roles.</p>
+        </div>
+        <Button variant="subtle"><Icon name="download" size={15}/> Export</Button>
+      </div>
+
+      <GlassCard className="overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left text-xs text-slate-400 border-b border-white/10">
+                <th className="px-5 py-3.5 font-medium">Candidate</th>
+                <th className="px-5 py-3.5 font-medium">Role</th>
+                <th className="px-5 py-3.5 font-medium">Match</th>
+                <th className="px-5 py-3.5 font-medium">Stage</th>
+                <th className="px-5 py-3.5 font-medium">Applied</th>
+                <th className="px-5 py-3.5 font-medium"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {CANDIDATES.map(c=>(
+                <tr key={c.id} className="border-b border-white/5 hover:bg-white/5 transition cursor-pointer">
+                  <td className="px-5 py-3.5">
+                    <div className="flex items-center gap-3">
+                      <Avatar initials={c.avatar} size="w-9 h-9"/>
+                      <div>
+                        <div className="font-medium">{c.name}</div>
+                        <div className="text-[11px] text-slate-400">{c.exp} experience</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-5 py-3.5 text-slate-300">{c.role}</td>
+                  <td className="px-5 py-3.5">
+                    <div className="flex items-center gap-2">
+                      <div className="w-16 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                        <div className="h-full rounded-full bg-gradient-to-r from-blue-500 to-emerald-400" style={{width:`${c.match}%`}}/>
+                      </div>
+                      <span className="text-xs text-slate-400">{c.match}%</span>
+                    </div>
+                  </td>
+                  <td className="px-5 py-3.5">
+                    <Badge tone={c.stage.includes("scheduled")?"green":c.stage.includes("Offer")?"blue":c.stage.includes("Assessment")?"amber":"slate"}>{c.stage}</Badge>
+                  </td>
+                  <td className="px-5 py-3.5 text-slate-400">{c.applied}</td>
+                  <td className="px-5 py-3.5">
+                    <div className="flex items-center gap-2 justify-end">
+                      <button className="text-xs text-blue-300 hover:underline" onClick={()=>setPage("video")}>Schedule</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </GlassCard>
+    </div>
+  );
+}
+
+/* ======================= SCHEDULING ======================= */
+function Scheduling({setPage, toast}){
+  const days = ["Mon 14","Tue 15","Wed 16","Thu 17","Fri 18","Sat 19","Sun 20"];
+  const slots = ["9:00 AM","10:00 AM","11:30 AM","1:00 PM","3:00 PM","4:30 PM","6:00 PM"];
+  const [selDay, setSelDay] = useState(4);
+  const [selSlot, setSelSlot] = useState(null);
+  const busy = {4:[2,4], 1:[0,3], 2:[5]};
+  return (
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
+      <div className="mb-6">
+        <h1 className="font-display text-2xl font-semibold">Interview scheduling</h1>
+        <p className="text-slate-400 text-sm mt-1">Pick a slot that syncs straight to Google Calendar for everyone involved.</p>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-5 mb-6">
+        <GlassCard className="p-6 lg:col-span-2">
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="font-display font-semibold">July 2026</h3>
+            <div className="flex gap-2 text-slate-400">
+              <button className="w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center"><Icon name="arrowRight" size={14} className="rotate-180"/></button>
+              <button className="w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center"><Icon name="arrowRight" size={14}/></button>
+            </div>
+          </div>
+          <div className="grid grid-cols-7 gap-2 mb-6">
+            {days.map((d,i)=>(
+              <button key={d} onClick={()=>{setSelDay(i); setSelSlot(null);}}
+                className={`rounded-xl py-3 text-center transition-all border ${selDay===i ? "bg-blue-500/20 border-blue-400/40 text-white" : "border-white/10 hover:bg-white/5 text-slate-300"}`}>
+                <div className="text-[10px] text-slate-400">{d.split(" ")[0]}</div>
+                <div className="text-sm font-medium mt-0.5">{d.split(" ")[1]}</div>
+              </button>
+            ))}
+          </div>
+          <div className="text-xs text-slate-400 mb-3">Available slots</div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+            {slots.map((s,i)=>{
+              const isBusy = (busy[selDay]||[]).includes(i);
+              return (
+                <button key={s} disabled={isBusy} onClick={()=>setSelSlot(i)}
+                  className={`rounded-xl py-2.5 text-xs font-medium border transition-all
+                  ${isBusy ? "border-white/5 text-slate-600 cursor-not-allowed line-through" :
+                    selSlot===i ? "bg-emerald-500/20 border-emerald-400/40 text-emerald-300" : "border-white/10 text-slate-300 hover:bg-white/5"}`}>
+                  {s}
+                </button>
+              );
+            })}
+          </div>
+          <Button className="w-full mt-6" disabled={selSlot===null} onClick={()=>toast("Interview scheduled & synced to calendar!")}>
+            <Icon name="calendar" size={15}/> Confirm slot
+          </Button>
+        </GlassCard>
+
+        <GlassCard className="p-6">
+          <h3 className="font-display font-semibold mb-4">Scheduling for</h3>
+          <div className="flex items-center gap-3 mb-4">
+            <Avatar initials="AR"/>
+            <div>
+              <div className="text-sm font-medium">Ananya Rao</div>
+              <div className="text-[11px] text-slate-400">Senior Frontend Engineer</div>
+            </div>
+          </div>
+          <div className="space-y-3 text-sm">
+            <div className="flex justify-between"><span className="text-slate-400">Round</span><span>Technical Round 2</span></div>
+            <div className="flex justify-between"><span className="text-slate-400">Duration</span><span>60 min</span></div>
+            <div className="flex justify-between"><span className="text-slate-400">Interviewer</span><span>Sana Fernandes</span></div>
+            <div className="flex justify-between"><span className="text-slate-400">Mode</span><span>Video call</span></div>
+          </div>
+          <div className="h-px bg-white/10 my-5"/>
+          <div className="flex items-center gap-2 text-xs text-emerald-300"><Icon name="check" size={13}/> Google Calendar connected</div>
+        </GlassCard>
+      </div>
+
+      <GlassCard className="p-6">
+        <h3 className="font-display font-semibold mb-4">All scheduled interviews</h3>
+        <div className="space-y-3">
+          {INTERVIEWS.map(iv=>(
+            <div key={iv.id} className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-3 rounded-xl hover:bg-white/5 transition">
+              <Avatar initials={iv.avatar} size="w-9 h-9"/>
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium">{iv.candidate} <span className="text-slate-500 font-normal">· {iv.type}</span></div>
+                <div className="text-[11px] text-slate-400">{iv.date} · {iv.time} · with {iv.interviewer}</div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Badge tone={iv.status==="Confirmed"?"green":"amber"}>{iv.status}</Badge>
+                <Button className="!py-1.5 !px-3 text-xs" onClick={()=>setPage("video")}>Join</Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </GlassCard>
+    </div>
+  );
+}
+
+/* ======================= VIDEO INTERVIEW ======================= */
+function VideoInterview({setPage}){
+  const [mic, setMic] = useState(true);
+  const [cam, setCam] = useState(true);
+  const [chat, setChat] = useState([
+    {from:"Sana Fernandes", text:"Hi Ananya! Great to have you — ready when you are.", me:false},
+    {from:"You", text:"Thanks! Yes, ready to get started 🙂", me:true},
+  ]);
+  const [msg, setMsg] = useState("");
+  const [notes, setNotes] = useState("Strong on React fundamentals.\nAsk about state management at scale next.");
+  const [elapsed, setElapsed] = useState(184);
+  useEffect(()=>{ const t = setInterval(()=>setElapsed(e=>e+1),1000); return ()=>clearInterval(t); },[]);
+  const mmss = `${String(Math.floor(elapsed/60)).padStart(2,"0")}:${String(elapsed%60).padStart(2,"0")}`;
+  const send = ()=>{ if(!msg.trim())return; setChat([...chat,{from:"You",text:msg,me:true}]); setMsg(""); };
+
+  return (
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-3">
+          <span className="w-2 h-2 rounded-full bg-rose-400 pulse-dot"/>
+          <span className="text-sm font-medium">Technical Round 2 — Senior Frontend Engineer</span>
+          <Badge tone="slate">{mmss}</Badge>
+        </div>
+        <Button variant="danger" onClick={()=>setPage("interviewer-dashboard")}><Icon name="phoneOff" size={15}/> Leave call</Button>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-5">
+        <div className="lg:col-span-2 space-y-4">
+          <GlassCard className="relative aspect-video overflow-hidden flex items-center justify-center">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#152444] to-[#0b1220]"/>
+            {cam ? (
+              <div className="relative z-10 flex flex-col items-center gap-3">
+                <Avatar initials="AR" size="w-24 h-24" />
+                <span className="text-sm text-slate-300">Ananya Rao</span>
+              </div>
+            ) : (
+              <div className="relative z-10 text-slate-500 flex flex-col items-center gap-2"><Icon name="camOff" size={28}/><span className="text-xs">Camera off</span></div>
+            )}
+            <div className="absolute bottom-4 right-4 w-32 md:w-44 aspect-video rounded-xl glass-strong flex items-center justify-center z-10">
+              <Avatar initials="SF" size="w-10 h-10"/>
+            </div>
+            <div className="absolute top-4 left-4 z-10"><Badge tone="green">● Recording</Badge></div>
+          </GlassCard>
+
+          <GlassCard className="p-4 flex items-center justify-center gap-3">
+            <button onClick={()=>setMic(!mic)} className={`w-11 h-11 rounded-full flex items-center justify-center transition ${mic ? "bg-white/10 hover:bg-white/15" : "bg-rose-500/20 text-rose-300"}`}>
+              <Icon name={mic?"mic":"micOff"} size={18}/>
+            </button>
+            <button onClick={()=>setCam(!cam)} className={`w-11 h-11 rounded-full flex items-center justify-center transition ${cam ? "bg-white/10 hover:bg-white/15" : "bg-rose-500/20 text-rose-300"}`}>
+              <Icon name={cam?"video":"camOff"} size={18}/>
+            </button>
+            <button className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/15 flex items-center justify-center"><Icon name="code" size={18}/></button>
+            <button className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/15 flex items-center justify-center"><Icon name="upload" size={18}/></button>
+            <button onClick={()=>setPage("interviewer-dashboard")} className="w-11 h-11 rounded-full bg-rose-500/80 hover:bg-rose-500 flex items-center justify-center text-white"><Icon name="phoneOff" size={18}/></button>
+          </GlassCard>
+
+          <GlassCard className="p-5">
+            <h3 className="text-sm font-medium mb-3 flex items-center gap-2"><Icon name="code" size={14}/> Live code snippet</h3>
+            <pre className="font-mono text-xs bg-black/30 rounded-xl p-4 overflow-x-auto text-blue-200 leading-relaxed">{`function debounce(fn, delay) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}`}</pre>
+          </GlassCard>
+        </div>
+
+        <div className="space-y-4">
+          <GlassCard className="p-5 h-72 flex flex-col">
+            <h3 className="text-sm font-medium mb-3">Chat</h3>
+            <div className="flex-1 overflow-y-auto scrollbar-none space-y-3 pr-1">
+              {chat.map((c,i)=>(
+                <div key={i} className={`flex ${c.me?"justify-end":"justify-start"}`}>
+                  <div className={`max-w-[80%] rounded-xl px-3 py-2 text-xs ${c.me ? "bg-blue-500/25 text-white" : "bg-white/8 text-slate-200"}`}>
+                    {!c.me && <div className="text-[10px] text-blue-300 mb-0.5">{c.from}</div>}
+                    {c.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-2 mt-3">
+              <input value={msg} onChange={e=>setMsg(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Message..." className="flex-1 bg-white/5 border border-white/10 rounded-full px-3.5 py-2 text-xs ring-input"/>
+              <button onClick={send} className="w-8 h-8 rounded-full btn-primary flex items-center justify-center text-white shrink-0"><Icon name="send" size={13}/></button>
+            </div>
+          </GlassCard>
+
+          <GlassCard className="p-5">
+            <h3 className="text-sm font-medium mb-3 flex items-center gap-2"><Icon name="edit" size={14}/> Interviewer notes</h3>
+            <textarea value={notes} onChange={e=>setNotes(e.target.value)} rows={5} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-xs ring-input resize-none"/>
+          </GlassCard>
+
+          <GlassCard className="p-5">
+            <h3 className="text-sm font-medium mb-3">Score this round</h3>
+            <div className="flex gap-2">
+              {[1,2,3,4,5].map(s=>(<button key={s} className="text-amber-300 hover:scale-110 transition"><Icon name="star" size={22}/></button>))}
+            </div>
+            <Button className="w-full mt-4 text-xs !py-2">Submit feedback</Button>
+          </GlassCard>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ======================= ASSESSMENT ======================= */
+function Assessment({toast}){
+  const [tab, setTab] = useState("mcq");
+  const [answers, setAnswers] = useState({});
+  const [code, setCode] = useState(CODE_PROMPT.starter);
+  const [timeLeft, setTimeLeft] = useState(35*60);
+  useEffect(()=>{ const t = setInterval(()=>setTimeLeft(s=>Math.max(0,s-1)),1000); return ()=>clearInterval(t); },[]);
+  const mm = String(Math.floor(timeLeft/60)).padStart(2,"0"), ss = String(timeLeft%60).padStart(2,"0");
+  const answeredCount = Object.keys(answers).length;
+
+  return (
+    <div className="p-4 md:p-8 max-w-5xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 className="font-display text-2xl font-semibold">Frontend Engineer Assessment</h1>
+          <p className="text-slate-400 text-sm mt-1">Nimbus Cloud Systems · Senior Frontend Engineer</p>
+        </div>
+        <GlassCard className="px-4 py-2.5 flex items-center gap-2">
+          <Icon name="clock" size={15} className="text-amber-300"/>
+          <span className="font-mono text-sm">{mm}:{ss}</span>
+        </GlassCard>
+      </div>
+
+      <div className="flex gap-2 mb-6">
+        <button onClick={()=>setTab("mcq")} className={`px-4 py-2 rounded-xl text-sm border transition ${tab==="mcq"?"bg-blue-500/20 border-blue-400/40 text-white":"border-white/10 text-slate-400"}`}>MCQ Round ({answeredCount}/{MCQ_QUESTIONS.length})</button>
+        <button onClick={()=>setTab("code")} className={`px-4 py-2 rounded-xl text-sm border transition ${tab==="code"?"bg-blue-500/20 border-blue-400/40 text-white":"border-white/10 text-slate-400"}`}>Coding Round</button>
+      </div>
+
+      {tab==="mcq" ? (
+        <div className="space-y-4">
+          {MCQ_QUESTIONS.map((q,qi)=>(
+            <GlassCard key={qi} className="p-5">
+              <div className="text-sm font-medium mb-3">{qi+1}. {q.q}</div>
+              <div className="grid sm:grid-cols-2 gap-2.5">
+                {q.options.map((o,oi)=>(
+                  <button key={oi} onClick={()=>setAnswers({...answers,[qi]:oi})}
+                    className={`text-left px-4 py-2.5 rounded-xl text-sm border transition-all
+                    ${answers[qi]===oi ? "bg-blue-500/20 border-blue-400/40 text-white" : "border-white/10 text-slate-300 hover:bg-white/5"}`}>
+                    {o}
+                  </button>
+                ))}
+              </div>
+            </GlassCard>
+          ))}
+          <Button className="w-full" onClick={()=>toast("MCQ round submitted!")}>Submit MCQ round</Button>
+        </div>
+      ) : (
+        <GlassCard className="p-6">
+          <h3 className="font-display font-semibold mb-1">{CODE_PROMPT.title}</h3>
+          <p className="text-sm text-slate-400 mb-4">{CODE_PROMPT.desc}</p>
+          <textarea value={code} onChange={e=>setCode(e.target.value)} spellCheck={false}
+            className="w-full font-mono text-xs bg-black/40 border border-white/10 rounded-xl p-4 text-blue-200 ring-input resize-none" rows={12}/>
+          <div className="flex gap-3 mt-4">
+            <Button variant="subtle"><Icon name="code" size={15}/> Run tests</Button>
+            <Button onClick={()=>toast("Coding round submitted!")}>Submit solution</Button>
+          </div>
+        </GlassCard>
+      )}
+    </div>
+  );
+}
+
+/* ======================= PAYMENT DASHBOARD ======================= */
+function Payments({session, toast}){
+  const isCompany = session?.role==="company" || session?.role==="admin";
+  return (
+    <div className="p-4 md:p-8 max-w-6xl mx-auto">
+      <div className="mb-6">
+        <h1 className="font-display text-2xl font-semibold">{isCompany ? "Billing & payments" : "Earnings"}</h1>
+        <p className="text-slate-400 text-sm mt-1">{isCompany ? "Manage your plan, invoices, and payment methods." : "Track payouts for interviews you've conducted."}</p>
+      </div>
+
+      <div className="grid sm:grid-cols-3 gap-4 mb-6">
+        <StatCard icon="money" label={isCompany?"This month's spend":"This month's earnings"} value={isCompany?"₹24,999":"₹41,500"} delta="+8%" index={0}/>
+        <StatCard icon="clock" label="Pending" value={isCompany?"₹0":"₹5,500"} index={1}/>
+        <StatCard icon="chart" label={isCompany?"Cost / hire":"Sessions paid"} value={isCompany?"₹8,400":"16"} index={2}/>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-5">
+        <GlassCard className="p-6 lg:col-span-2">
+          <h3 className="font-display font-semibold mb-4">{isCompany ? "Invoice history" : "Payout history"}</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-xs text-slate-400 border-b border-white/10">
+                  <th className="py-3 font-medium">{isCompany?"Invoice":"Session"}</th>
+                  <th className="py-3 font-medium">Date</th>
+                  <th className="py-3 font-medium">Amount</th>
+                  <th className="py-3 font-medium">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(isCompany?INVOICES:EARNINGS).map(row=>(
+                  <tr key={row.id} className="border-b border-white/5 hover:bg-white/5 transition">
+                    <td className="py-3">
+                      <div className="font-medium text-xs sm:text-sm">{row.id}</div>
+                      <div className="text-[11px] text-slate-400">{row.plan || row.label}</div>
+                    </td>
+                    <td className="py-3 text-slate-400 text-xs sm:text-sm">{row.date}</td>
+                    <td className="py-3 text-xs sm:text-sm">{typeof row.amount === "number" ? `₹${row.amount.toLocaleString("en-IN")}` : row.amount}</td>
+                    <td className="py-3"><Badge tone={row.status==="Paid"?"green":"amber"}>{row.status}</Badge></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </GlassCard>
+
+        <div className="space-y-5">
+          {isCompany ? (
+            <GlassCard className="p-6">
+              <h3 className="font-display font-semibold mb-4">Payment method</h3>
+              <div className="glass rounded-xl p-4 flex items-center gap-3 mb-4">
+                <div className="w-10 h-7 rounded bg-gradient-to-br from-blue-500 to-indigo-700 flex items-center justify-center"><Icon name="card" size={14} className="text-white"/></div>
+                <div>
+                  <div className="text-sm">•••• •••• •••• 4821</div>
+                  <div className="text-[11px] text-slate-400">Expires 08/29</div>
+                </div>
+              </div>
+              <Button variant="subtle" className="w-full text-xs !py-2" onClick={()=>toast("Payment method updated!")}>Update via Razorpay</Button>
+            </GlassCard>
+          ) : (
+            <GlassCard className="p-6">
+              <h3 className="font-display font-semibold mb-4">Payout account</h3>
+              <div className="glass rounded-xl p-4 flex items-center gap-3 mb-4">
+                <div className="w-9 h-9 rounded-lg bg-emerald-500/15 text-emerald-300 flex items-center justify-center"><Icon name="building" size={16}/></div>
+                <div>
+                  <div className="text-sm">HDFC Bank •••• 2214</div>
+                  <div className="text-[11px] text-slate-400">Linked via Razorpay</div>
+                </div>
+              </div>
+              <Button variant="subtle" className="w-full text-xs !py-2">Manage payout account</Button>
+            </GlassCard>
+          )}
+          <GlassCard className="p-6">
+            <h3 className="font-display font-semibold mb-3">Earnings trend</h3>
+            <MiniBar data={[18,24,21,30,27,35,32,41]} color="#2fd48c"/>
+          </GlassCard>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ======================= ADMIN DASHBOARD ======================= */
+function AdminDashboard(){
+  return (
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
+      <div className="mb-6">
+        <h1 className="font-display text-2xl font-semibold">Platform overview</h1>
+        <p className="text-slate-400 text-sm mt-1">Real-time health across companies, interviewers, and candidates.</p>
+      </div>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <StatCard icon="building" label="Active companies" value="860" delta="+24" index={0}/>
+        <StatCard icon="users" label="Verified interviewers" value="3,214" delta="+61" index={1}/>
+        <StatCard icon="star" label="Registered candidates" value="18,940" delta="+412" index={2}/>
+        <StatCard icon="money" label="Platform revenue (MTD)" value="₹18.4L" delta="+14%" index={3}/>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-5 mb-6">
+        <GlassCard className="p-6 lg:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-display font-semibold">Interviews conducted, last 8 weeks</h3>
+            <Badge tone="green">+22%</Badge>
+          </div>
+          <LineSpark data={[420,460,510,489,560,610,590,680]} color="#5b8def" h={120}/>
+        </GlassCard>
+        <GlassCard className="p-6">
+          <h3 className="font-display font-semibold mb-4">Role distribution</h3>
+          <div className="space-y-4">
+            {[{l:"Candidates",v:73,c:"#5b8def"},{l:"Interviewers",v:15,c:"#2fd48c"},{l:"Companies",v:12,c:"#f5a623"}].map(r=>(
+              <div key={r.l}>
+                <div className="flex justify-between text-xs mb-1.5"><span className="text-slate-400">{r.l}</span><span>{r.v}%</span></div>
+                <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+                  <div className="h-full rounded-full" style={{width:`${r.v}%`, background:r.c}}/>
+                </div>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+      </div>
+
+      <GlassCard className="p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-display font-semibold">Recent signups</h3>
+          <button className="text-sm text-blue-300 hover:underline">View all users</button>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left text-xs text-slate-400 border-b border-white/10">
+                <th className="py-3 font-medium">Name</th>
+                <th className="py-3 font-medium">Type</th>
+                <th className="py-3 font-medium">Email</th>
+                <th className="py-3 font-medium">Joined</th>
+                <th className="py-3 font-medium">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ADMIN_USERS.map(u=>(
+                <tr key={u.id} className="border-b border-white/5 hover:bg-white/5 transition">
+                  <td className="py-3 font-medium">{u.name}</td>
+                  <td className="py-3"><Badge tone="slate">{u.type}</Badge></td>
+                  <td className="py-3 text-slate-400">{u.email}</td>
+                  <td className="py-3 text-slate-400">{u.joined}</td>
+                  <td className="py-3"><Badge tone={u.status==="Active"?"green":"red"}>{u.status}</Badge></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </GlassCard>
+    </div>
+  );
+}
+
+function AdminUsers(){
+  const [q,setQ]=useState("");
+  const filtered = ADMIN_USERS.filter(u=>u.name.toLowerCase().includes(q.toLowerCase()));
+  return (
+    <div className="p-4 md:p-8 max-w-6xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 className="font-display text-2xl font-semibold">User management</h1>
+          <p className="text-slate-400 text-sm mt-1">Manage companies, interviewers, and candidates on the platform.</p>
+        </div>
+        <div className="relative">
+          <Icon name="search" size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500"/>
+          <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search users..." className="bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm ring-input w-64"/>
+        </div>
+      </div>
+      <GlassCard className="overflow-hidden">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-left text-xs text-slate-400 border-b border-white/10">
+              <th className="px-5 py-3.5 font-medium">Name</th>
+              <th className="px-5 py-3.5 font-medium">Type</th>
+              <th className="px-5 py-3.5 font-medium">Email</th>
+              <th className="px-5 py-3.5 font-medium">Joined</th>
+              <th className="px-5 py-3.5 font-medium">Status</th>
+              <th className="px-5 py-3.5 font-medium"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map(u=>(
+              <tr key={u.id} className="border-b border-white/5 hover:bg-white/5 transition">
+                <td className="px-5 py-3.5 font-medium">{u.name}</td>
+                <td className="px-5 py-3.5"><Badge tone="slate">{u.type}</Badge></td>
+                <td className="px-5 py-3.5 text-slate-400">{u.email}</td>
+                <td className="px-5 py-3.5 text-slate-400">{u.joined}</td>
+                <td className="px-5 py-3.5"><Badge tone={u.status==="Active"?"green":"red"}>{u.status}</Badge></td>
+                <td className="px-5 py-3.5">
+                  <div className="flex gap-2 justify-end">
+                    <button className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center"><Icon name="edit" size={13}/></button>
+                    <button className="w-7 h-7 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 flex items-center justify-center"><Icon name="trash" size={13}/></button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </GlassCard>
+    </div>
+  );
+}
+
+/* ======================= REPORTS ======================= */
+function Reports(){
+  return (
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
+      <div className="mb-6">
+        <h1 className="font-display text-2xl font-semibold">Reports & analytics</h1>
+        <p className="text-slate-400 text-sm mt-1">Funnel performance and interviewer quality at a glance.</p>
+      </div>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <StatCard icon="trend" label="Time to hire" value="14 days" delta="-3 days" index={0}/>
+        <StatCard icon="users" label="Offer acceptance" value="76%" delta="+5%" index={1}/>
+        <StatCard icon="star" label="Interviewer NPS" value="68" delta="+4" index={2}/>
+        <StatCard icon="chart" label="Cost per hire" value="₹8,400" delta="-6%" index={3}/>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-5 mb-6">
+        <GlassCard className="p-6">
+          <h3 className="font-display font-semibold mb-4">Hiring funnel</h3>
+          <div className="space-y-3">
+            {[{l:"Applied",v:217,w:100,c:"#5b8def"},{l:"Screened",v:96,w:44,c:"#8fb3ff"},{l:"Interviewed",v:41,w:19,c:"#2fd48c"},{l:"Offered",v:9,w:4,c:"#f5a623"},{l:"Hired",v:6,w:3,c:"#f0546b"}].map(s=>(
+              <div key={s.l}>
+                <div className="flex justify-between text-xs mb-1.5"><span className="text-slate-400">{s.l}</span><span>{s.v}</span></div>
+                <div className="w-full h-3 rounded-full bg-white/10 overflow-hidden">
+                  <div className="h-full rounded-full transition-all duration-700" style={{width:`${s.w}%`, background:s.c}}/>
+                </div>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+
+        <GlassCard className="p-6">
+          <h3 className="font-display font-semibold mb-4">Applications by week</h3>
+          <MiniBar data={[24,31,28,40,38,52,47,61]} color="#5b8def" h={140}/>
+        </GlassCard>
+      </div>
+
+      <GlassCard className="p-6">
+        <h3 className="font-display font-semibold mb-4">Interviewer scorecards</h3>
+        <div className="space-y-3">
+          {[{n:"Sana Fernandes",r:4.9,c:38,rec:92},{n:"Marcus Webb",r:4.8,c:29,rec:88},{n:"Leah Cho",r:5.0,c:21,rec:95}].map(p=>(
+            <div key={p.n} className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition">
+              <Avatar initials={p.n.split(" ").map(x=>x[0]).join("")} size="w-9 h-9"/>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-medium">{p.n}</div>
+                <div className="text-[11px] text-slate-400">{p.c} interviews conducted</div>
+              </div>
+              <div className="flex items-center gap-1 text-xs text-amber-300"><Icon name="star" size={12}/>{p.r}</div>
+              <Badge tone="green">{p.rec}% recommend rate</Badge>
+            </div>
+          ))}
+        </div>
+      </GlassCard>
+    </div>
+  );
+}
+
+/* ======================= APP ======================= */
+function App(){
+  const [dark, setDark] = useState(true);
+  const [page, setPage] = useState("landing");
+  const [session, setSession] = useState(null);
+  const [authOpen, setAuthOpen] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [activeJob, setActiveJob] = useState(JOBS[0]);
+  const [toastMsg, setToastMsg] = useState(null);
+
+  const toast = (m)=>{ setToastMsg(m); setTimeout(()=>setToastMsg(null), 2600); };
+
+  const handleAuth = (role)=>{
+    const presets = {
+      company: {name:"Nimbus Cloud Systems", initials:"NC", color:"#5b8def", role:"company"},
+      interviewer: {name:"Sana Fernandes", initials:"SF", color:"#2fd48c", role:"interviewer"},
+      candidate: {name:"Ananya Rao", initials:"AR", color:"#f5a623", role:"candidate"},
+    };
+    setSession(presets[role]);
+    setAuthOpen(null);
+    setPage(`${role}-dashboard`);
+  };
+
+  useEffect(()=>{ document.documentElement.classList.toggle("light-mode", !dark); },[dark]);
+
+  const renderPage = ()=>{
+    switch(page){
+      case "landing": return <Landing setAuthOpen={setAuthOpen}/>;
+      case "company-dashboard": return <CompanyDashboard setPage={setPage}/>;
+      case "interviewer-dashboard": return <InterviewerDashboard setPage={setPage}/>;
+      case "candidate-dashboard": return <CandidateDashboard setPage={setPage}/>;
+      case "admin-dashboard": return <AdminDashboard/>;
+      case "admin-users": return <AdminUsers/>;
+      case "jobs": return <JobsList setPage={setPage} setActiveJob={setActiveJob} session={session}/>;
+      case "job-details": return <JobDetails job={activeJob} setPage={setPage} toast={toast}/>;
+      case "candidates": return <CandidatesList setPage={setPage}/>;
+      case "scheduling": return <Scheduling setPage={setPage} toast={toast}/>;
+      case "video": return <VideoInterview setPage={setPage}/>;
+      case "assessment": return <Assessment toast={toast}/>;
+      case "payments": return <Payments session={session} toast={toast}/>;
+      case "reports": return <Reports/>;
+      default: return <Landing setAuthOpen={setAuthOpen}/>;
+    }
+  };
+
+  return (
+    <div onClick={()=>notifOpen && setNotifOpen(false)}>
+      <TopNav page={page} setPage={setPage} dark={dark} setDark={setDark} session={session} setSession={setSession}
+        setAuthOpen={setAuthOpen} notifOpen={notifOpen} setNotifOpen={setNotifOpen}/>
+      <div className="flex">
+        <Sidebar page={page} setPage={setPage} session={session} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen}/>
+        <main className="flex-1 min-w-0">
+          {session && (
+            <button onClick={(e)=>{e.stopPropagation(); setMobileOpen(true);}} className="md:hidden fixed bottom-5 left-5 z-20 w-11 h-11 rounded-full btn-primary text-white flex items-center justify-center shadow-2xl">
+              <Icon name="users" size={18}/>
+            </button>
+          )}
+          {renderPage()}
+        </main>
+      </div>
+      <AuthModal mode={authOpen} setMode={setAuthOpen} onAuth={handleAuth}/>
+      <Toast toast={toastMsg}/>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+document.getElementById("root").dataset.mounted = "true";
+</script>
 </body>
 </html>
